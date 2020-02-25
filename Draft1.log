@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.5.3)  24 FEB 2020 10:40
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.5.3)  25 FEB 2020 17:15
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -160,11 +160,11 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 
 {/usr/lib/texlive/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 40.
+(Font)              <7> on input line 46.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 40.
+(Font)              <5> on input line 46.
  [2]
-Overfull \hbox (4.09322pt too wide) in paragraph at lines 54--57
+Overfull \hbox (4.09322pt too wide) in paragraph at lines 60--63
 \OT1/cmr/m/n/10 ues $\OML/cmm/m/it/10 y[]; y[]$ \OT1/cmr/m/n/10 in the sam-ple 
 space of $\OML/cmm/m/it/10 y[]$\OT1/cmr/m/n/10 , $\OML/cmm/m/it/10 f[]\OT1/cmr/
 m/n/10 (\OML/cmm/m/it/10 m[]\OMS/cmsy/m/n/10 j\OML/cmm/m/it/10 y[]; y[]; ^^R\OT
@@ -175,47 +175,44 @@ cmsy/m/n/10 j\OML/cmm/m/it/10 y[]; y[]; ^^R\OT1/cmr/m/n/10 )$.
 <missingness.png, id=18, 908.39375pt x 835.12pt>
 File: missingness.png Graphic file (type png)
 <use missingness.png>
-Package pdftex.def Info: missingness.png  used on input line 70.
+Package pdftex.def Info: missingness.png  used on input line 76.
 (pdftex.def)             Requested size: 345.0pt x 317.17049pt.
-[3] [4 <./missingness.png>] [5] [6]
+[3] [4 <./missingness.png>] [5]
+Overfull \hbox (0.77846pt too wide) in paragraph at lines 104--107
+[]\OT1/cmr/m/n/10 ''When the im-pu-ta-tion model class and the (em-bed-ded) an-
+a-lyst's model
+ []
 
-LaTeX Warning: Citation `w' on page 7 undefined on input line 150.
+[6] [7] [8] [9]
+Overfull \hbox (54.78317pt too wide) in paragraph at lines 239--242
+\OT1/cmr/m/n/10 Difference be-tween baysian and fre-quen-tist paradigm. Ci-ta-t
+ion ex-am-ple: [[],
+ []
 
-[7]
-
-LaTeX Warning: Citation `grund_pooling_2016' on page 8 undefined on input line 
-187.
-
-(./Draft1.bbl
-
-LaTeX Warning: Empty `thebibliography' environment on input line 3.
-
-) [8] (./Draft1.aux)
-
-LaTeX Warning: There were undefined references.
-
- ) 
+(./Draft1.bbl) [10] (./Draft1.aux) ) 
 Here is how much of TeX's memory you used:
- 1998 strings out of 492623
- 28060 string characters out of 6132828
- 102944 words of memory out of 5000000
- 5897 multiletter control sequences out of 15000+600000
- 7895 words of font info for 28 fonts, out of 8000000 for 9000
+ 2006 strings out of 492623
+ 28170 string characters out of 6132828
+ 103969 words of memory out of 5000000
+ 5904 multiletter control sequences out of 15000+600000
+ 8241 words of font info for 29 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  41i,6n,25p,1237b,221s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/lib/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/
-lib/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/lib/texl
-ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/lib/texlive/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/lib/texlive/texmf-dist/fo
-nts/type1/public/amsfonts/cm/cmr10.pfb></usr/lib/texlive/texmf-dist/fonts/type1
-/public/amsfonts/cm/cmr12.pfb></usr/lib/texlive/texmf-dist/fonts/type1/public/a
-msfonts/cm/cmr17.pfb></usr/lib/texlive/texmf-dist/fonts/type1/public/amsfonts/c
-m/cmr7.pfb></usr/lib/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.p
-fb></usr/lib/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb>
-Output written on Draft1.pdf (8 pages, 193044 bytes).
+</usr/lib/texlive/texmf-dist/fonts/type1/pu
+blic/amsfonts/cm/cmbx10.pfb></usr/lib/texlive/texmf-dist/fonts/type1/public/ams
+fonts/cm/cmbx12.pfb></usr/lib/texlive/texmf-dist/fonts/type1/public/amsfonts/cm
+/cmmi10.pfb></usr/lib/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.p
+fb></usr/lib/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/
+lib/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/lib/texli
+ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/lib/texlive/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/lib/texlive/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmsy10.pfb></usr/lib/texlive/texmf-dist/fonts/type1/p
+ublic/amsfonts/cm/cmsy7.pfb></usr/lib/texlive/texmf-dist/fonts/type1/public/ams
+fonts/cm/cmti10.pfb>
+Output written on Draft1.pdf (10 pages, 210942 bytes).
 PDF statistics:
- 74 PDF objects out of 1000 (max. 8388607)
- 51 compressed objects within 1 object stream
+ 84 PDF objects out of 1000 (max. 8388607)
+ 58 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  6 words of extra memory for PDF output out of 10000 (max. 10000000)
 
