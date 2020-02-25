@@ -1,0 +1,32 @@
+---
+title: "Bachelor thesis"
+author: "Marius Dioli"
+date: "February 22, 2020"
+output: pdf_document
+---
+```{r}
+
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(mice)
+library(mvtnorm)
+```
+
+```{r}
+#Setting vals for multivariate continous vars
+mu = 8
+sigma = 2
+help(mvtnorm)
+```
+
+```{r}
+#Generating binary data
+n = 1000
+binary_categorical_vector = round(runif(n, min = 0, max = 1))
+```
+
