@@ -16,6 +16,20 @@
 	
 	
 	\section{Introduction}
+	... ''eng and Romero (2003), Xie and Meng (2012)). In general,
+	the problem of multiphase inference can be formulated as one of missing data. However, in the
+	multiphase setting, missingness arises from the preprocessing choices made, not a probabilis
+	tic response mechanism. Thus, we can leverage the mathematical and computational methods
+	of this literature, but many of its conceptual tools need to be modified. Multiple imputation ad
+	dresses many of the same issues as multiphase inference and is indeed a special case of the
+	latter. Concepts such as congeniality between imputation and analysis models and self-efficiency
+	(Meng ( 1994)) have natural analogues and roles to play in the analysis of multiphase inference
+	problems.''
+	
+	In this paper we will focus on the Multiple Imputation in the context of correcting for missing data before analysis. Blocker and Meng argue that general preprosessing can be evaluated in the missing data paradigm, but this is outside the scope of this paper. We refer readers to Block and Meng for an in depth consideration of the subject.
+	
+	The public database is perhaps the context where MI is most useful. These are often analyzed by multiple users with varying degrees of statistical knowledge and resources. All public databases have missing data, and typically users do not have the knowledge to deal with missing data satisfactoraly. Even if they do, the database constructors often have more information about the missing data than the end user, and so can better compensate for this.
+	%TODO Introduce the concept of multiphase inference. Reference meng2017 and Blocker and meng
 	If one is to do anything of import in science, one has to manipulate and analyze data. However, due to a variety of factors, data is often flawed. One major flaw one can have, and the topic of this thesis, is missing data. The consequence of missing data is always a reduction in efficiency and may also lead to bias.
 	
 	//A variety of ad hoc approaches are commonly used to deal with missing data, and many of the techniques described in this thesis are either//
@@ -36,6 +50,8 @@
 	// fyldig
 	
 	As detailed in Xie and Meng [DISSECTING MULTIPLE IMPUTATION FROM], much of modern data analysis is done in a multi-phase paradigm, where the distinct and sequential phases data acquisition, data pre-processing, and data analysis, can have different or even contradictory assumptions.
+	
+
 	
 	\section{Terminology and basic missingness theory}
 	In the following section I will mostly adhere to the notation of Rubin in (citation), as it is both well established and quite general. However, I will adapt it slightly by using the observed/missing notation in (missing data) for readability, as it is easier for an unfamiliar audience and non-specialists to understand.
@@ -83,57 +99,67 @@
 	
 	\subsection{The validity of missingness mechanisms}
 	
-	In controlled environemnts, like the one from the our example, we can guarantee that data are MAR since we control the censoring of the data (in this case by placing a cutoff between 2018 and 2019). However, it is rare that we have this much control over our data and a compelling reason to censor it so. In most real world scenarios we only have the data at hand to inform us about the missingnsess mechanism. Unfortunately, we cannot infer the missingness mechanism from data ...  We can check the validity of MCAR against MAR, but only under the unverifiable assumption that the data is not MNAR. Neither can we use the data at hand to support or refute on specific MNAR mechanism over another. The literature stresses the importance of sensitivity analyses in this case, checking the sensitivity of our inference under a variety of plausible assumptions. Finally MAR cannot be checked empirically against MNAR  (Cite from page 8, 9, and 10 in missing data). We therefore have to assume the missingness mechanism, most often MAR, and there are strong arguments for this. First and foremost is that assuming MAR yields good empirical results, which will be shown in later sections. %TODO Add more reasons for assuming MAR
+	In controlled environments, like the one from our example, we can guarantee that data are MAR since we control the censoring of the data (in this case by placing a cutoff between 2018 and 2019). However, it is rare that we have this much control over our data, and a compelling reason to censor it so. In most real world scenarios we only have the data at hand to inform us about the missingness mechanism. Unfortunately, we cannot infer the missingness mechanism from data.  We can check the validity of MCAR against MAR, but only under the unverifiable assumption that the data is not MNAR. Neither can we use the data at hand to support or refute on specific MNAR mechanism over another. The literature stresses the importance of sensitivity analyses in this case, checking the sensitivity of our inference under a variety of plausible assumptions. Finally MAR cannot be checked empirically against MNAR  (Cite from page 8, 9, and 10 in missing data). We therefore have to assume the missingness mechanism, most often MAR, and there are strong arguments for this. First and foremost is that assuming MAR yields good empirical results, which will be shown in later sections. %TODO Add more reasons for assuming MAR
 	
 	\section{Imputation}
 	
 	\subsection{What is imputation?}
-	Imputation refers to substituting or ''filling in'' missing values with plausible estimates. The main strength of imputation is that it does not change the nature of the subsequent analysis. It makes it much easier for the data processor and analyst to work together since the processor's techniques won't interfere with the analysts'.
-	%TODO change the previous sentence to reflect congeniality
-	 Another benefit of imputation is that it augments the dataset, meaning that the dataset being analysed is larger than the original dataset, potentially yielding higher performance.
+	Imputation refers to substituting or ''filling in'' of missing values with plausible estimates.The main strength of imputation is that it does not change the nature of the subsequent analysis. It makes it much easier for the data processor and analyst to work together since the processor's techniques won't interfere with the analysts'. This is, at least, the goal of imputation. In certain situation the information available to the imputer might differ to that available to the analyst. In such cases difficulties arise. The concept of congeniality, which we will define shortly, helps us overcome some of these difficulties. Another very practical benefit, and a strong argument for its use, is the performance gains to be had from using it. This will become clear in the experiments section.
 	
+
+
 	\subsection{Congeniality: when the imputer's and analysts models differ}
 	As mentioned in the introduction, modern data analysis' multiple phases mean that the assumptions underlying each phase and the relationship between the phases is an important object of study.  Meng's [meng 1994] concept of congeniality provides a theoretical framework from which to evaluate these differences.
 	
-	Congeniality is an important concept in imputation and has a big impact on the statistical validity of MI. In short, uncongeniality arises when the analysis procedure differs substantially from the imputation model. There are many reasons for such difference, for example, the imputer might wish to include as many variables as possible to achieve an accurate imputation, while the analyst might be interested in only a subset of the covariates and the relationship between these. However, as Meng [1994] states, ''If the imputer's model is reasonably accu-
-	rate, then following the multiple-imputation recipe
-	prevents the analyst from producing inferences with
-	serious nonresponse biases''
-	Congeniality [Meng]
 	
 	''When the imputation model class and the (embedded) analyst’s model class
 	differ, the behavior of Rubin’s rules becomes very complicated, capable of producing inconsistent variance estimators, a matter that has received recurrent
 	criticisms'' [Meng 2017]
 	
+	Congeniality is an important concept in imputation and has a big impact on the statistical validity of MI. In short, uncongeniality arises when the analysis procedure differs substantially from the imputation model. There are many reasons for such difference, for example, the imputer might wish to include as many variables as possible to achieve an accurate imputation, while the analyst might be interested in only a subset of the covariates and the relationship between these. However, as Meng [1994] states, ''If the imputer's model is reasonably accu-
+	rate, then following the multiple-imputation recipe
+	prevents the analyst from producing inferences with
+	serious nonresponse biases''
+	
+	
+	
+	\subsection{Does imputation yield valid inference?}
+	Techniques are baased on the bayesian paradigm, but 
+	
+	Rubin (1996) defines 
+	
 	
 	\subsection{Techniques of interest}
 	To properly evaluate the performance of MI, we should compare it to other similar and commonly used techniques, i.e. techniques that manipulate the dataset by either imputing or removing values. When choosing to apply a method it is important to keep two questions in mind. First, does the method under consideration give us consistent estimators for our model? Second, does the method give us appropriate measures of precision? How the following methods answer these questions is how we will decide the superiority of one method over another.
 	
-	There are two other competing methods which we should touch on breifly before continuing. Weighting procedures and likelihood-based methods are ... alternatives to multiple imputation. However, there is reason to prefer MI as the default options over these for a few reasons. First that, given congeniality, MI tends to outperform likelihood-based methods for small sample sizes, while delivering similar performance for large sample sizes \cite{schafer_multiple_2016}.
+	There are two other competing methods which we should touch on briefly before continuing. Weighting procedures and likelihood-based methods are ... alternatives to multiple imputation. However, there is reason to prefer MI as the default options over these for a few reasons. First that, given congeniality, MI tends to outperform likelihood-based methods for small sample sizes, while delivering similar performance for large sample sizes \cite{schafer_multiple_2016}.
 	
 	\subsection{Ad hoc methods}
 	Carpenter and Kenward (Missing data handbook) ...
 	
 	\textbf{Case deletion, also called complete case analysis (CCA):}
-	A very common practice, CCA involves restricting analysis to entries with complete data. For those familiar with programming, a typical example would be to remove all rows from a dataframe with NaN entries. The first and most obvious problem with this approach is that it drastically reduces the amount of useable data. Additionally, this technique introduces large biases in the data if missingness is MAR or MNAR (CITE REVIEW PAPER FROM TURID). Only under MCAR is the data not biased when conducting CCA, but one is still faced with reduced accuracy due to missing data. 
-	
+	Probably the most common technique in use for dealing with missing data, CCA involves restricting analysis to entries with complete data. For those familiar with programming, a typical example would be to remove all rows from a dataframe with NaN entries. The first and most obvious problem with this approach is that it drastically reduces the amount of useable data. This holds an intuitive appeal, as it is both exceedingly simple to implement, and seem to have the regrettable but sometimes minor effect of lower accuracy. However, depending on the missingness mechanism, this might be wrong, and can actually introduce bias into the data. For example, suppose you want to find the mean and standard deviation in the height of a population. If for some reason you lack all entries for people above 200cm, then disregarding these missing entries in a CCA will lead to biased estimates for both the mean and variance. An implicit assumption, therefore, of CCA is that the observed data is a random sample of the underlying distribution. This means that CCA implicitly assumes MCAR, and we see in [schafer and graham] that we get unbiased inference in this scenario, if with lower accuracy depending on the amount of missing data. However, as with the height example, deviation from MCAR can introduce bias. (CITE REVIEW PAPER FROM TURID). 
 	
 	\textbf{Mean imputation:}
+	Another common practice, this technique involves substituting the missing values with the mean for that variable. As stated in Schafer and Graham [2002], this has the effect of preserving the mean of the distribution one wishes to draw inference about, but distorts other parameters such as variance and covariance. %Add some more math from either schafer and graham or another source
 	
 	\textbf{Hot Deck imputation:}
 	
-	\subsection{Statistically principled methods}
+	\textbf{Last Observation Carried Forward (LOCF):x}
 	
+	
+	\subsection{Statistically principled methods}
+	The bayesian paradigm is ideal for more statistically principled imputation, as it allows us to effectively model the unknown given the known, and makes assumptions explicit.
 	
 	\textbf{Single imputation}
 	
 	
-	Maximum likelihood and mixed linear models... This is the current alternative to the main method which we will discuss in the next chapter, multiple imputation. MI is often preferred over ML and MLM for two reasons: 
-	1. It often performs similarly to multiple imputation with only a small advantage on certain kinds of data.
-	2. It is less easy to use for non-statisticians
-	A
-	
 	\section{Multiple imputation}
+	
+	Multiple imputation can be thought of as three distinct steps:
+	1) M imputed datasets are generated
+	2) The intended analysis is performed separately on all M datasets
+	3) The results of the analysis are combined using Rubin's or Meng's rules to create a single MI result.
 	
 	Highly robust technique that yields gains even with relatively small portions of missing data. It has only reached desired levels of performance in the last decade due to the computing power required. 
 	
@@ -146,7 +172,8 @@
 	
 	\subsection{Specifying the imputation model}
 	
-	We often want to include as many covariates as possible. X have shown that even mildly correlated auxiliary variables can improve subsequent inference [cite annotadet article]
+	
+	We often want to include as many covariates as possible. X have shown that even mildly correlated auxiliary variables can improve subsequent inference [cite annotadet article]. However, this can cause the imputation and and analyses models to be uncongenial.
 	
 	\subsection{Rubin's rules and Meng's adaptations}
 	
@@ -155,7 +182,7 @@
 	If models are uncongenial, we use Meng's rules.
 	
 	\subsection{Potential pitfalls and criticism}
-	When there is missing data in several variables of different types ,for example continuous and binary, and the data is structured, specifying the imputation model can be quite difficult. This is because it has to be a joint model...
+	The following arguments apply for imputation in general, but we will consider them in the context of MI. When there is missing data in several variables of different types ,for example continuous and binary, and the data is structured, specifying the imputation model can be quite difficult. This is because it has to be a joint model...
 	
 	
 	. Among all the
@@ -190,6 +217,8 @@
 	''The
 	increased flexibility in modeling these conditional distributions may outweigh
 	the lack of clear theoretical justification of the method.'' Rubin
+	
+	We have chosen to use MICE for the experiments in this paper for two main reasons. One is the aformentioned performance and flexibility, while the other is that MICE is unlicenced and open source in contrast to other technqieus like drawing from a fully specified joint distribution found in statistical packages like STATA. In the interest of democratizing MI while retaining the desired performance, MICE was found to be superior.
 	
 	\subsection{Synthetic example}
 	
