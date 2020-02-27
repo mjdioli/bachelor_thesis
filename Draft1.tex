@@ -42,8 +42,6 @@
 	and information'' [Multiple-Imputation Inferences with Uncongenial Sources of Input]
 	
 	
-	//Missing data is almost always considered in the context of fitting a model or making inference.//
-	
 	.. We will measure its efficacy on synthetic data and real data before comparing it with an alternate method that is gaining in popularity, machine learning.
 	
 	This paper is by no means comprehensive, but strives to give the reader a proper introduction to the problem of missing data and the technique of multiple imputation.
@@ -51,7 +49,11 @@
 	
 	As detailed in Xie and Meng [DISSECTING MULTIPLE IMPUTATION FROM], much of modern data analysis is done in a multi-phase paradigm, where the distinct and sequential phases data acquisition, data pre-processing, and data analysis, can have different or even contradictory assumptions.
 	
-
+	Our objective with multiple imputation, as stated in Rubin(1996), is: assuming that ultimate user's complete-data analysis is stat
+	
+	Although our main objective with MI is inference, we will test its ability to improve performance in prediction and classification contexts as well.
+	
+	The goal of this paper is to give an overview of missingness theory and multiple imputation such that as many as possible can then apply MI well.
 	
 	\section{Terminology and basic missingness theory}
 	In the following section I will mostly adhere to the notation of Rubin in (citation), as it is both well established and quite general. However, I will adapt it slightly by using the observed/missing notation in (missing data) for readability, as it is easier for an unfamiliar audience and non-specialists to understand.
@@ -123,9 +125,32 @@
 	
 	
 	\subsection{Does imputation yield valid inference?}
-	Techniques are baased on the bayesian paradigm, but 
+	Techniques are based on the bayesian paradigm, but 
 	
-	Rubin (1996) defines 
+	Rubin (1996) defines the term scientific estimand as the objects we wish to draw inference about. He defines them thusly: "... a quantity of scientific
+	interest that can be calculated in the population and does
+	not change its value depending on the data collection de-
+	sign used to measure it (i.e., it does not vary with sample
+	size and survey design, or the number of nonrespondents,
+	or follow-up effort. Sci-
+	entific estimands include population means, variances, cor-
+	relations, factor loadings, regression coefficients, and these
+	quantities within strata or domains, but exclude the sam-
+	pling variance of a sample mean under a particular sampling
+	plan and the expectation of the complete-data sample mean
+	when missing values are filled in with zero or the observed sample mean. ". Rubin goes on to describe statistical validity for scientific estimands as the following: " point estimation must be approximately unbi-
+	ased for the scientific estimands, averaging over the sam-
+	pling and the posited nonresponse mechanisms (e.g., filling
+	in zeros or means is not generally acceptable)." and "in-
+	terval estimation and hypothesis testing must be valid in
+	the sense that nominal levels describe operating character-
+	istics over sampling and posited response mechanisms.". The latter criteria can be further refined into "randomization validity" and "confidence validity". The first is that, according to Rubin (1996),  "randomization validity means that, for interval estimates,
+	"actual interval coverage = nominal interval coverage," and
+	for tests of hypotheses, "actual rejection rate = nominal re-
+	jection rate."  Randomization validity is of course desireable, but not always achievable, and so Rubin introduces confidence validity as a looser criterion and defines it as "hat for interval estimates, "ac-
+	tual interval coverage > nominal interval coverage," and for
+	tests of hypotheses, "actual rejection rate < nominal rejec-
+	tion rate."" 
 	
 	
 	\subsection{Techniques of interest}
