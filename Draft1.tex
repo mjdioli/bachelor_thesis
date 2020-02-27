@@ -107,7 +107,6 @@
 	Imputation refers to substituting or ''filling in'' of missing values with plausible estimates.The main strength of imputation is that it does not change the nature of the subsequent analysis. It makes it much easier for the data processor and analyst to work together since the processor's techniques won't interfere with the analysts'. This is, at least, the goal of imputation. In certain situation the information available to the imputer might differ to that available to the analyst. In such cases difficulties arise. The concept of congeniality, which we will define shortly, helps us overcome some of these difficulties. Another very practical benefit, and a strong argument for its use, is the performance gains to be had from using it. This will become clear in the experiments section.
 	
 
-
 	\subsection{Congeniality: when the imputer's and analysts models differ}
 	As mentioned in the introduction, modern data analysis' multiple phases mean that the assumptions underlying each phase and the relationship between the phases is an important object of study.  Meng's [meng 1994] concept of congeniality provides a theoretical framework from which to evaluate these differences.
 	
@@ -135,26 +134,33 @@
 	There are two other competing methods which we should touch on briefly before continuing. Weighting procedures and likelihood-based methods are ... alternatives to multiple imputation. However, there is reason to prefer MI as the default options over these for a few reasons. First that, given congeniality, MI tends to outperform likelihood-based methods for small sample sizes, while delivering similar performance for large sample sizes \cite{schafer_multiple_2016}.
 	
 	\subsection{Ad hoc methods}
-	Carpenter and Kenward (Missing data handbook) ...
+	This section is mostly adapted from Carpenter and Kenward [Ch2.5 missing data]. Although Ad hoc is pejorative in certain circumstances, it is used here to indicate that the methods below are motivated by convenience rather than any methodological concern.
 	
 	\textbf{Case deletion, also called complete case analysis (CCA):}
-	Probably the most common technique in use for dealing with missing data, CCA involves restricting analysis to entries with complete data. For those familiar with programming, a typical example would be to remove all rows from a dataframe with NaN entries. The first and most obvious problem with this approach is that it drastically reduces the amount of useable data. This holds an intuitive appeal, as it is both exceedingly simple to implement, and seem to have the regrettable but sometimes minor effect of lower accuracy. However, depending on the missingness mechanism, this might be wrong, and can actually introduce bias into the data. For example, suppose you want to find the mean and standard deviation in the height of a population. If for some reason you lack all entries for people above 200cm, then disregarding these missing entries in a CCA will lead to biased estimates for both the mean and variance. An implicit assumption, therefore, of CCA is that the observed data is a random sample of the underlying distribution. This means that CCA implicitly assumes MCAR, and we see in [schafer and graham] that we get unbiased inference in this scenario, if with lower accuracy depending on the amount of missing data. However, as with the height example, deviation from MCAR can introduce bias. (CITE REVIEW PAPER FROM TURID). 
+	Probably the most common technique in use for dealing with missing data, CCA involves restricting analysis to entries with complete data. For those familiar with programming, a typical example would be to remove all rows from a dataframe with NaN entries. The first and most obvious problem with this approach is that it drastically reduces the amount of useable data. This holds an intuitive appeal, as it is both exceedingly simple to implement, and seem to have the regrettable but sometimes minor effect of lower accuracy. However, depending on the missingness mechanism, this might be wrong, and can actually introduce bias into the data. For example, suppose you want to find the mean and standard deviation in the height of a population. If for some reason you lack all entries for people above 200cm, then disregarding these missing entries in a CCA will lead to biased estimates for both the mean and variance. An implicit assumption, therefore, of CCA is that the observed data is a random sample of the underlying distribution. This means that CCA implicitly assumes MCAR, and we see in [schafer and graham] that we get unbiased inference in this scenario, if with lower accuracy depending on the amount of missing data. However, as with the height example, deviation from MCAR can introduce bias. See Schafer and Graham, ... for examples of how inference is affected. (CITE REVIEW PAPER FROM TURID). 
 	
 	\textbf{Mean imputation:}
-	Another common practice, this technique involves substituting the missing values with the mean for that variable. As stated in Schafer and Graham [2002], this has the effect of preserving the mean of the distribution one wishes to draw inference about, but distorts other parameters such as variance and covariance. %Add some more math from either schafer and graham or another source
+	Another common practice, this technique involves substituting the missing values with the mean of the observed values for that variable. As stated in Schafer and Graham [2002], this has the effect of preserving the mean of the distribution one wishes to draw inference about, but distorts other parameters such as variance and covariance. Covariance especially is distorted due to mean imputation taking only the varible under consideration as input. In addition to this the technique breaks down when confronted with categorical variables where the mean does not exist (and it is clear how a majority vote imputation might skew the data). %Add some more math from either schafer and graham or another source
 	
-	\textbf{Hot Deck imputation:}
 	
 	\textbf{Last Observation Carried Forward (LOCF):x}
+	This method is mostly used in longitudinal studies where individuals drop out, withdraw, or are lost over the course of the studies. LOCF involves imputing the missing values for an individual with the last observed value for that individual. Leaving aside questions of precision, LOCF produces biased estimators in all except very specific MNAR circumstances (Kenward and Molenberghs 2009 get article). With LOCF we are effectively assuming that for each individual that drops out their responses do not change at all for the remainder of the study, a highly unrealistic assumption. It can be concluded, therefore, that LOCF is the worst imputation method of those mentioned here, and all the other methods are preferable. According [Missing data] "LOCV is neither valid under general assumptions nor based on statistical principles, it is not a sensible method, and should not be used".
 	
+	\textbf{Regression:}
+	Regression imputation functions by regressing the variable(s) with missing entries on the fully observed variables, or subsets that are fully observed. To illustrate this, let us consider the simplest case, with one fully observed variable $x$ linearly related to a variable with missing data $y$. Fitting a regression of $y$ on $x$, we have$$Y_{i} = \beta_{0} + \beta_{1}x_{i} + \epsilon \qquad i\in(0,...,n)$$ obtaining estimates of the regression parameters $\hat{\beta_{0}}$ and $\hat{\beta_{1}}$ allows us to impute $E(y_{i}) = \hat{\beta_{0}} + \hat{\beta_{1}}x_{i}$. This is the best of the ad hoc methods, as it gives us much more plausible imputations that can vary. However, even in this simple case it yields imputations that tend to be less variable than the observed data. Therefore, using them in inference will most often lead to underestimated standard errors and p-values. If there are non-linear relationships in the data, this method's performance breaks down with regard to other aspects of inference as well.
+	
+	For more in depth descriptions and examples of these methods we refer the reader to [missing data handbook].
 	
 	\subsection{Statistically principled methods}
 	The bayesian paradigm is ideal for more statistically principled imputation, as it allows us to effectively model the unknown given the known, and makes assumptions explicit.
 	
 	\textbf{Single imputation}
-	
+	To build our intuition about multiple imputation it is relevant to discuss the single imputation case, and how its shortcomings are rectified in MI.
 	
 	\section{Multiple imputation}
+	One sizeable weakness of the earlier imputation methods is that they use points as estimates of distributions. Hence, subsequent measures of precision are biased downwards. Multiple imputation solves this problem by creating multiple imputed datasets drawn from a posterior distribution and then combines them in the final step. This preserves the distributional variation in the missing data, and 
+
+	
 	
 	Multiple imputation can be thought of as three distinct steps:
 	1) M imputed datasets are generated
