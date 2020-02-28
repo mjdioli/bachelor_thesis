@@ -108,24 +108,10 @@
 	\subsection{What is imputation?}
 	Imputation refers to substituting or ''filling in'' of missing values with plausible estimates.The main strength of imputation is that it does not change the nature of the subsequent analysis. It makes it much easier for the data processor and analyst to work together since the processor's techniques won't interfere with the analysts'. This is, at least, the goal of imputation. In certain situation the information available to the imputer might differ to that available to the analyst. In such cases difficulties arise. The concept of congeniality, which we will define shortly, helps us overcome some of these difficulties. Another very practical benefit, and a strong argument for its use, is the performance gains to be had from using it. This will become clear in the experiments section.
 	
-
-	\subsection{Congeniality: when the imputer's and analysts models differ}
-	As mentioned in the introduction, modern data analysis' multiple phases mean that the assumptions underlying each phase and the relationship between the phases is an important object of study.  Meng's [meng 1994] concept of congeniality provides a theoretical framework from which to evaluate these differences.
+	The more advanced model based approaches of this paper uses both the Bayesian and frequentist paradigms in complementary ways. The Bayesian approach creates procedures, while the frequentist one evalueates them.
 	
-	
-	''When the imputation model class and the (embedded) analyst’s model class
-	differ, the behavior of Rubin’s rules becomes very complicated, capable of producing inconsistent variance estimators, a matter that has received recurrent
-	criticisms'' [Meng 2017]
-	
-	Congeniality is an important concept in imputation and has a big impact on the statistical validity of MI. In short, uncongeniality arises when the analysis procedure differs substantially from the imputation model. There are many reasons for such difference, for example, the imputer might wish to include as many variables as possible to achieve an accurate imputation, while the analyst might be interested in only a subset of the covariates and the relationship between these. However, as Meng [1994] states, ''If the imputer's model is reasonably accu-
-	rate, then following the multiple-imputation recipe
-	prevents the analyst from producing inferences with
-	serious nonresponse biases''
-	
-	
-	
-	\subsection{Does imputation yield valid inference?}
-	Techniques are based on the bayesian paradigm, but 
+	\subsection{What is valid inference?}
+	Techniques are based on the bayesian paradigm, but inference is often done in the frequentist one.
 	
 	Rubin (1996) defines the term scientific estimand as the objects we wish to draw inference about. He defines them thusly: "... a quantity of scientific
 	interest that can be calculated in the population and does
@@ -148,10 +134,23 @@
 	"actual interval coverage = nominal interval coverage," and
 	for tests of hypotheses, "actual rejection rate = nominal re-
 	jection rate."  Randomization validity is of course desireable, but not always achievable, and so Rubin introduces confidence validity as a looser criterion and defines it as "hat for interval estimates, "ac-
-	tual interval coverage > nominal interval coverage," and for
-	tests of hypotheses, "actual rejection rate < nominal rejec-
-	tion rate."" 
+	tual interval coverage >= nominal interval coverage," and for
+	tests of hypotheses, "actual rejection rate =< nominal rejec-
+	tion rate."" We therefore proceed in our analysis of methods using these definitions when evaluating the inferential validity of imputation methods.
 	
+	
+	\subsection{Congeniality: when the imputer's and analysts models differ}
+	As mentioned in the introduction, modern data analysis' multiple phases mean that the assumptions underlying each phase and the relationship between the phases is an important object of study. Meng's [meng 1994] concept of congeniality provides a theoretical framework from which to evaluate these differences.
+	
+	
+	''When the imputation model class and the (embedded) analyst’s model class
+	differ, the behavior of Rubin’s rules becomes very complicated, capable of producing inconsistent variance estimators, a matter that has received recurrent
+	criticisms'' [Meng 2017]
+	
+	Congeniality is an important concept in imputation and has a big impact on the statistical validity of MI. In short, uncongeniality arises when the analysis procedure differs substantially from the imputation model. There are many reasons for such difference, for example, the imputer might wish to include as many variables as possible to achieve an accurate imputation, while the analyst might be interested in only a subset of the covariates and the relationship between these. However, as Meng [1994] states, ''If the imputer's model is reasonably accu-
+	rate, then following the multiple-imputation recipe
+	prevents the analyst from producing inferences with
+	serious nonresponse biases''
 	
 	\subsection{Techniques of interest}
 	To properly evaluate the performance of MI, we should compare it to other similar and commonly used techniques, i.e. techniques that manipulate the dataset by either imputing or removing values. When choosing to apply a method it is important to keep two questions in mind. First, does the method under consideration give us consistent estimators for our model? Second, does the method give us appropriate measures of precision? How the following methods answer these questions is how we will decide the superiority of one method over another.
@@ -185,8 +184,6 @@
 	\section{Multiple imputation}
 	One sizeable weakness of the earlier imputation methods is that they use points as estimates of distributions. Hence, subsequent measures of precision are biased downwards. Multiple imputation solves this problem by creating multiple imputed datasets drawn from a posterior distribution and then combines them in the final step. This preserves the distributional variation in the missing data, and 
 
-	
-	
 	Multiple imputation can be thought of as three distinct steps:
 	1) M imputed datasets are generated
 	2) The intended analysis is performed separately on all M datasets
@@ -229,6 +226,8 @@
 	
 	%^fixed with congeniality
 	
+	Even Rubin (1996) admits that MI
+	
 	Taking all this into account, it is important to see MI in context of the options available to someone working with data. As we have established earlier, simply ignoring missing data can lead  to serious biases, while alternative methods yield similar if not inferior performance in certain cases. As long as a potential user is aware of the potential pitfalls, MI is the superior method for dealing with missing data.
 	
 	
@@ -254,6 +253,8 @@
 	We have chosen to use MICE for the experiments in this paper for two main reasons. One is the aformentioned performance and flexibility, while the other is that MICE is unlicenced and open source in contrast to other technqieus like drawing from a fully specified joint distribution found in statistical packages like STATA. In the interest of democratizing MI while retaining the desired performance, MICE was found to be superior.
 	
 	\subsection{Synthetic example}
+	
+	%Remember to use Rubin's definitons of statistical validity in evaluating the methods.
 	
 	"The MCAR missingness mechanism
 	removed the first p observations such that pn gives the
