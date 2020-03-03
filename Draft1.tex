@@ -106,12 +106,12 @@
 	\section{Imputation}
 	
 	\subsection{What is imputation?}
-	Imputation refers to substituting or ''filling in'' of missing values with plausible estimates.The main strength of imputation is that it does not change the nature of the subsequent analysis. It makes it much easier for the data processor and analyst to work together since the processor's techniques won't interfere with the analysts'. This is, at least, the goal of imputation. In certain situation the information available to the imputer might differ to that available to the analyst. In such cases difficulties arise. The concept of congeniality, which we will define shortly, helps us overcome some of these difficulties. Another very practical benefit, and a strong argument for its use, is the performance gains to be had from using it. This will become clear in the experiments section.
+	Imputation refers to substituting or ''filling in'' of missing values with plausible estimates. Often the person creating or maintaining a dataset will have access to more information than the one analysing it. Using this information in correcting for missing data means that the imputer can do a better job than the analyst. The main strength of imputation is that it does not change the nature of the subsequent analysis. It makes it much easier for the data processor and analyst to work together since the processor's techniques won't interfere with the analysts'. This is, at least, the goal of imputation. In certain situation the information available to the imputer might differ to that available to the analyst. In such cases difficulties arise. The concept of congeniality, which we will define shortly, helps us overcome some of these difficulties. Another very practical benefit, and a strong argument for its use, is the performance gains to be had from using it. This will become clear in the experiments section.
 	
 	The more advanced model based approaches of this paper uses both the Bayesian and frequentist paradigms in complementary ways. The Bayesian approach creates procedures, while the frequentist one evalueates them. This is because the bayesian paradigm allows us to effectively model the unknown given the known, and makes assumptions explicit. The frequentist paradigm is the one which is by far most common when doing inference, so it makes sense that it is under that paradigm performance matters.
 	
 	\subsection{What is valid inference?}
-	Techniques are based on the bayesian paradigm, but inference is often done in the frequentist one.
+	Some have questioned whether methods developed under the Bayesian paradigm leads to valid frequentist inference (Meng1994). However, Xia and Meng(2017), Meng(1994), and Rubin(1996) have shown that such Bayesian models yield valid inference in the asymptotic case, and even in the non-asymptotic case following the below definition given certain conditions which we will explore later.
 	
 	Rubin (1996) defines the term scientific estimand as the objects we wish to draw inference about. He defines them thusly: "... a quantity of scientific
 	interest that can be calculated in the population and does
@@ -138,11 +138,8 @@
 	tests of hypotheses, "actual rejection rate =< nominal rejec-
 	tion rate."" We therefore proceed in our analysis of methods using these definitions when evaluating the inferential validity of imputation methods.
 	
-	MI is motivated under the Bayesian paradigm. This causes some (Reference Fay and stuff from MENG) to question whether inference under MI is valid at all. To address this Meng [1994] developed the concept of congeniality, which we will go into more detail on soon.
-	
-	
 	\subsection{Congeniality: when the imputer's and analysts models differ}
-	As mentioned in the introduction, modern data analysis' multiple phases mean that the assumptions underlying each phase and the relationship between the phases is an important object of study. Meng's [meng 1994] concept of congeniality provides a theoretical framework from which to evaluate these differences and most of this section is derived from his paper.
+	As mentioned in the introduction, modern data analysis' multiple phases mean that the assumptions underlying each phase and the relationship between the phases is an important object of study. Differences might cause the subsequent analysis to be biased, or in the worst case, invalid. Meng's [meng 1994] concept of congeniality provides a theoretical framework from which to evaluate these differences and most of this section is derived from his paper.
 	
 	First let us define some of the basic notation that Meng (1994) uses to define congeniality. We will modify it slightly to fit with the notation of this paper and since Meng's paper was written in the context of surveys. An analyst's complete-data procedure can be summarised by $P_{com} = {\hat{Q}(Y, M), U(Y, M)}$ where $\hat{Q}(Y, M)$ is an estimator of $Q(Y, M)$, an uknown quantity of interest, with $U(Y, M)$ being an associated variance estimator. Likewise, an analyst's incomplete data procedure is denoted by $P_{obs} = {\hat{Q}(Y^{o}, M), U(Y{o}, M)}$. Meng goes on to define congeniality in the following manner: "A Bayesian model f is said to be congenial to the analysis procedure $P = {P_{obs};P_{com}}$ for a given ${Y^{o}, M}$ if the following hold:
 	
@@ -156,19 +153,14 @@
 	same as the estimate and variance from the analyst's
 	complete-data procedure , $P_{com}$ that is, $$[[\hat{Q}(Y), U(Y)]\simeq [E_{f}[Q|{Y}], Var_{f}[Q|{Y}]]\qquad \forall Y\textrm{with}Y^{o}\textrm{fixed (i.e., conditioned upon)}$$
 	
-	Additionally, let $g(Y^{m}|{Y^{o}, M}, A)$ be the imputation model, where A represents possible additional data the imputer has access to. Meng continues by stating ''The analysis procedure $P$ is said to be congenial to the imputation model $g(Y^{m}|{Y^{o}, M}, A)$ if one can find an f such that 1) f is congenial to $P$ and 2) the posterior predictive density for $Y^{m}$ derivd under f is identical to the imputation model $$f(Y{m}|{Y^{o}, M}) = g(Y{m}|{Y^{o}, M}, A) \forall Y^{m}$$
+	Additionally, let $g(Y^{m}|{Y^{o}, M}, A)$ be the imputation model, where A represents possible additional data the imputer has access to. Meng continues by stating ''The analysis procedure $P$ is said to be congenial to the imputation model $g(Y^{m}|{Y^{o}, M}, A)$ if one can find an f such that 1) f is congenial to $P$ and 2) the posterior predictive density for $Y^{m}$ derived under f is identical to the imputation model $$f(Y{m}|{Y^{o}, M}) = g(Y{m}|{Y^{o}, M}, A) \forall Y^{m}$$
 	
 	Therefore if no such congenial f exists, then$P$ is said to be uncongenial to g. Notice that congeniality is defined with respect to a particular analysis procedure, meaning that an analyst can perform two types of analyses where one is congenial and the other is not. There are three main scenarios in which uncongeniality occurs in the context of missing data and MI. The first is when the imputation model is largely unknown to the analyst, often the case with public databases. Second is when the different needs of imputation and analysis require different models. Third is when one is conducting sensitivity analysis, which necessarily requires the testing of different models, some of which will be uncongenial.
-	
-	
-	''When the imputation model class and the (embedded) analyst’s model class
-	differ, the behavior of Rubin’s rules becomes very complicated, capable of producing inconsistent variance estimators, a matter that has received recurrent
-	criticisms'' [Meng 2017]
 	
 	Congeniality is an important concept in imputation and has a big impact on the statistical validity of MI. In short, uncongeniality arises when the analysis procedure differs substantially from the imputation model. There are many reasons for such difference, for example, the imputer might wish to include as many variables as possible to achieve an accurate imputation, while the analyst might be interested in only a subset of the covariates and the relationship between these. However, as Meng [1994] states, ''If the imputer's model is reasonably accu-
 	rate, then following the multiple-imputation recipe
 	prevents the analyst from producing inferences with
-	serious nonresponse biases''
+	serious nonresponse biases''. Meng goes on to show that even with an uncongenial imputation model, inferences performed on a MI dataset still yield better inference than the best possible incomplete data inference.
 	
 	\subsection{Techniques of interest}
 	To properly evaluate the performance of MI, we should compare it to other similar and commonly used techniques, i.e. techniques that manipulate the dataset by either imputing or removing values. When choosing to apply a method it is important to keep two questions in mind. First, does the method under consideration give us consistent estimators for our model? Second, does the method give us appropriate measures of precision? How the following methods answer these questions is how we will decide the superiority of one method over another.
@@ -198,37 +190,31 @@
 	
 	
 	\textbf{Single imputation}
-	Single imputation is the building block of MI, and .. Single imputation can be done in a variety of ways, but the most straightforward and easy to understand is the following: create a joint posterior distribution ... Draw from this distribution to fill in your dataset, and then do your analysis. 
+	Single imputation is the building block of MI, and many of it's deficiencies are corrected for when expanded to MI. It can be done in a variety of ways, but the most straightforward and easy to understand is the following: create a joint posterior distribution of your missing data given your observed data, i.e. $f(Y^{m}|Y^{o}, M)$. Draw from this distribution to fill in your dataset, then perform your desired analysis. How you specify the missing data model can determine the efficacy of this method, but it is otherwise uncomplicated. We will therefore focus the majority of our analysis on the MI case.
 	
 	\section{Multiple imputation}
-	One sizeable weakness of the earlier imputation methods is that they use points as estimates of distributions. Hence, subsequent measures of precision are biased downwards. Multiple imputation solves this problem by creating multiple imputed datasets drawn from a posterior distribution and then combines them in the final step. This preserves the distributional variation in the missing data, and ... Increases in available computation power has made MI a much more practical method to implement, as one of the weaknesses that earlier impeded its adoption was that it was computationally expensive. 
+	One sizeable weakness of the earlier imputation methods is that they use points as estimates of distributions. Hence, subsequent measures of precision are biased downwards. Multiple imputation solves this problem by creating multiple imputed datasets drawn from a posterior distribution and then combines them in the final step. This preserves the distributional variation in the missing data, and leads to better variance estimates. Increases in available computation power has made MI a much more practical method to implement, as one of the weaknesses that earlier impeded its adoption was that it was computationally expensive. Many of the reservations people had with MI regarding inference concerned MI with few imputed datasets M, typically in the 5-10 range. With larger M and more advanced theoretical framework for combining the resulting analyses, one can achieve strong results in a large number of situations, see Xia and Meng (2017), Meng (1994), Rubin (1996), and Madley-Dowd et al. (2019).
 	
 	Multiple imputation can be thought of as three distinct steps:
-	1) M imputed datasets are generated through repeated random draws from the predictive distribution of the missing values under a particular model for missingness.
+	1) M imputed datasets are generated through repeated random draws from the predictive distribution of the missing values ($f(Y^{m}|Y^{o}, M)$) under a particular model for missingness.
 	2) The intended analysis is performed separately on all M datasets
-	3) The results of the analysis are combined using Rubin's or Meng's rules to create a single MI result. 
+	3) The results of the analysis are combined using Rubin's or Meng's rules to create a single MI result. 	
 	
-	 
+	It should be noted that even though there is no strict mathematical proof that MI yields valid inference in the case of finite M, the empirical evidence presents a strong case that MI is a useful tool. Comparing it to the other methods available, one finds that alternatives are on the whole less effective. %Additionally, Meng (1994) shows us that for sufficiently many imputations we have that the variance is less than for one calculated in the complete case. 
 	
-	Between imputation variance and within imputation variance
-	
-	
-	It should be noted that even though there is no strict mathematical proof that MI yields valid inference, the empirical evidence presents a strong case that MI is a useful tool. Comparing it to the other methods available, one finds that alternatives are on the whole less effective.
+	%If MI is used, the imputer should convey as clearly as possible to the analyst the form of their model and its underlying assumptions.
 	
 	\subsection{Specifying the imputation model}
 	
+	To create an accurate model for the missing data, we often want to include as many covariates as possible. Madley-Dowd et al. (2019) have shown that even mildly correlated auxiliary variables can improve subsequent inference. This leads us to make repeated random draws from $f(Y^{m}|Y^{o}, M, A)$, where A represents auxiliary variables. Whether or not to include auxialiary variables is a judgement best made by the imputer, as it can both be a cause and a cure for uncongeniality. Meng (1994) cautions against the use of less general imputation models (e.g. ignoring covariates/auxiliary variables).
 	
-	We often want to include as many covariates as possible. X have shown that even mildly correlated auxiliary variables can improve subsequent inference [cite annotadet article]. However, this can cause the imputation and and analyses models to be uncongenial.
+	\subsection{Rubin's rules}
 	
-	\subsection{Rubin's rules and Meng's adaptations}
+	At step 2) of MI, we have M sets of parameter estimates and their variances $\hat{\theta}_{i},\hat{Var_{i}} \qquad i=0,...,M$. The next step is to combine these into a single estimate. Under congeniality Rubin's combining rules suffice for giving us statistically valid estimates. The parameter estimate is simply the average $$\bar{\theta} = \frac{1}{M}\sum_{i=0}^{M}\hat{\theta}_{i}$$ and the variance associated with $\bar{\theta}$ is given by $$T = \bar{Var}+(1+\frac{1}{M}B)$$ where $$\bar{Var} = \frac{1}{M}\sum_{i=0}^{M}\hat{Var}_{i}$$ measures the within imputation variability and $$B = \frac{1}{M-1}\sum_{i=0}^{M}(\hat{\theta_{i}}-\bar{\theta})(\hat{\theta_{i}}-\bar{\theta})^{T}$$ measures the between imputation variability. The adjustment $(1+\frac{1}{M})$ is due to the finite number of imputations. If we let $M\rightarrow\infty$ then we achieve asymptotic equality to the true variance estimate.
 	
-	At step 2) of MI, we have M sets of parameter estimates and their variances $\hat{\theta}_{i},\hat{Var_{i}} \qquad i=0,...,M$. The next step is to combine these into a single estimate. Under congeniality Rubin's combining rules suffice for giving us statistically valid estimates. The parameter estimate is simply the average $$\bar{\theta} = \frac{1}{M}\sum_{i=0}^{M}\hat{\theta}_{i}$$ and the variance associated with $\bar{\theta}$ is given by $$T = \bar{Var}+(1+\frac{1}{M}B)$$ where $$\bar{Var} = \frac{1}{M}\sum_{i=0}^{M}\hat{Var}_{i}$$ measures the within imputation variability and $$B = \frac{1}{M-1}\sum_{i=0}^{M}(\hat{\theta_{i}}-\bar{\theta})(\hat{\theta_{i}}-\bar{\theta})^{T}$$ measures the between imputation variability. The adjustment $(1+\frac{1}{M})$ is due to the finite number of imputations. If we let $M\rightarrow\infty$ then...
-	
-	
-	
-	
-	
-	If models are uncongenial, we use Meng's rules.
+	Xia and Meng (2017) state that ''When the imputation model class and the (embedded) analyst’s model class
+	differ, the behavior of Rubin’s rules becomes very complicated, capable of producing inconsistent variance estimators, a matter that has received recurrent
+	criticisms''. They argue that in the uncongenial case , which is often the rule rather than the exception, doubling Rubin's variance measure will never underestimate the true variance. This holds for any degree of uncongeniality, and provides a surprisingly simple solution to the problem of uncongeniality. For Univariate data, Xia and Meng (2017) suggest replacing $T$ with $\tilde{T}= (\sqrt{\bar{Var}}+\sqrt{B})^{2}+\frac{1}{M}B_$. These methods may be viewed as highly conservative, but in the context of MI where uncongeniality between analysts and imputer is unknown and potentially large, it pays to be as insured as possible against invalid inference. However, even if these methods are not used and the models are uncongenial, we note that Meng (1994) has shown that MI is still superior to incomplete data procedures.
 	
 	\subsection{Potential pitfalls and criticism}
 	The following arguments apply for imputation in general, but we will consider them in the context of MI. When there is missing data in several variables of different types ,for example continuous and binary, and the data is structured, specifying the imputation model can be quite difficult. This is because it has to be a joint model...
@@ -247,10 +233,13 @@
 	
 	%^fixed with congeniality
 	
+	%Improper specification of the imputation model causes uncongeniality and introduces bias in the data that can distort inference.
+	
 	Even Rubin (1996) admits that MI
 	
 	Taking all this into account, it is important to see MI in context of the options available to someone working with data. As we have established earlier, simply ignoring missing data can lead  to serious biases, while alternative methods yield similar if not inferior performance in certain cases. As long as a potential user is aware of the potential pitfalls, MI is the superior method for dealing with missing data.
 	
+	%Needs more pitfalls and criticism
 	
 	\subsection{When to use multiple imputation?}
 	Computational resources and time to create the full joint imputation model. (Handbook 236)
@@ -260,6 +249,8 @@
 	However, Madley-Dowd et. al. (Proportion of missing data paper) propose a different measure.
 	
 	MI can be used to perform sensitivity analysis by varying the imputation model.
+	
+	%Needs to be more comprehensive.
 	
 	\section{Experiments}
 	In this section we will use Madley-Dowd et. al.'s missingness measure to...
@@ -322,6 +313,10 @@
 	\subsection{TODO}
 	Difference between baysian and frequentist paradigm.
 	Citation example:
+	Self efficiency.
+	
+	\subsection{Final notes}
+	This paper has gone into great detail on MI and missing data in general. However, a rigorous comparison between likelihood based methods and MI has not been performed in the literature to the same extent as this paper. Espceially in the case of uncongenial imputation models, one would think likelihood based methods might show some promise.
 	\cite[P.10]{grund_pooling_2016}.
 
 	\bibliography{bib2}	
