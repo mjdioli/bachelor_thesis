@@ -142,7 +142,7 @@
 	
 	
 	\subsection{Congeniality: when the imputer's and analysts models differ}
-	As mentioned in the introduction, modern data analysis' multiple phases mean that the assumptions underlying each phase and the relationship between the phases is an important object of study. Meng's [meng 1994] concept of congeniality provides a theoretical framework from which to evaluate these differences.
+	As mentioned in the introduction, modern data analysis' multiple phases mean that the assumptions underlying each phase and the relationship between the phases is an important object of study. Meng's [meng 1994] concept of congeniality provides a theoretical framework from which to evaluate these differences and most of this section is derived from his paper.
 	
 	First let us define some of the basic notation that Meng (1994) uses to define congeniality. We will modify it slightly to fit with the notation of this paper and since Meng's paper was written in the context of surveys. An analyst's complete-data procedure can be summarised by $P_{com} = {\hat{Q}(Y, M), U(Y, M)}$ where $\hat{Q}(Y, M)$ is an estimator of $Q(Y, M)$, an uknown quantity of interest, with $U(Y, M)$ being an associated variance estimator. Likewise, an analyst's incomplete data procedure is denoted by $P_{obs} = {\hat{Q}(Y^{o}, M), U(Y{o}, M)}$. Meng goes on to define congeniality in the following manner: "A Bayesian model f is said to be congenial to the analysis procedure $P = {P_{obs};P_{com}}$ for a given ${Y^{o}, M}$ if the following hold:
 	
@@ -155,6 +155,10 @@
 	f given the complete data are asymptotically the
 	same as the estimate and variance from the analyst's
 	complete-data procedure , $P_{com}$ that is, $$[[\hat{Q}(Y), U(Y)]\simeq [E_{f}[Q|{Y}], Var_{f}[Q|{Y}]]\qquad \forall Y\textrm{with}Y^{o}\textrm{fixed (i.e., conditioned upon)}$$
+	
+	Additionally, let $g(Y^{m}|{Y^{o}, M}, A)$ be the imputation model, where A represents possible additional data the imputer has access to. Meng continues by stating ''The analysis procedure $P$ is said to be congenial to the imputation model $g(Y^{m}|{Y^{o}, M}, A)$ if one can find an f such that 1) f is congenial to $P$ and 2) the posterior predictive density for $Y^{m}$ derivd under f is identical to the imputation model $$f(Y{m}|{Y^{o}, M}) = g(Y{m}|{Y^{o}, M}, A) \forall Y^{m}$$
+	
+	Therefore if no such congenial f exists, then$P$ is said to be uncongenial to g. Notice that congeniality is defined with respect to a particular analysis procedure, meaning that an analyst can perform two types of analyses where one is congenial and the other is not. There are three main scenarios in which uncongeniality occurs in the context of missing data and MI. The first is when the imputation model is largely unknown to the analyst, often the case with public databases. Second is when the different needs of imputation and analysis require different models. Third is when one is conducting sensitivity analysis, which necessarily requires the testing of different models, some of which will be uncongenial.
 	
 	
 	''When the imputation model class and the (embedded) analyst’s model class
@@ -218,7 +222,9 @@
 	
 	\subsection{Rubin's rules and Meng's adaptations}
 	
-	Under congeniality, Rubin's rules for calculating standard errors, parameter values, and variance suffice.
+	At step 2) of MI, we have M sets of parameter estimates and their variances $\hat{\theta}_{i},\hat{Var_{i}} \qquad i=0,...,M$. The next step is to combine these into a single estimate. Under congeniality Rubin's combining rules suffice for giving us statistically valid estimates. The parameter estimate is simply the average $$\bar{\theta} = \frac{1}{M}\sum_{i=0}^{M}\hat{\theta}_{i}$$ and the variance associated with $\bar{\theta}$ is given by $$T = \bar{Var}+(1+\frac{1}{M}B)$$ where $$\bar{Var} = \frac{1}{M}\sum_{i=0}^{M}\hat{Var}_{i}$$ measures the within imputation variability and $$B = \frac{1}{M-1}\sum_{i=0}^{M}(\hat{\theta_{i}}-\bar{\theta})(\hat{\theta_{i}}-\bar{\theta})^{T}$$ measures the between imputation variability. The adjustment $(1+\frac{1}{M})$ is due to the finite number of imputations. If we let $M\rightarrow\infty$ then...
+	
+	
 	
 	
 	
