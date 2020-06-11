@@ -1,0 +1,28 @@
+\begin{thebibliography}{}
+
+\bibitem[{Kenward, M. G. and Molenberghs}, 2009]{KenwardM.G.andMolenberghs2009}
+{Kenward, M. G. and Molenberghs}, G. (2009).
+\newblock {Last observation carried forward: A crystal ball?}
+\newblock {\em Journal of Biopharmaceutical Statistics}, 19:872--888.
+
+\bibitem[Molenberghs et~al., 2014]{Molenberghs2015}
+Molenberghs, G., Fitzmaurice, G., Kenward, M., Tsiatis, B., Verbeke, G.,
+  Carpenter, J.~R., Rizopolous, D., Davidian, M., Rotnitzky, A., Vansteelandt,
+  S., Carlin, J.~B., van Buuren, S., Goldstein, H., Hogan, J.~W., Daniels,
+  M.~J., Hu, L., White, I.~R., Mallinckrodt, C., Belin, T.~R., and Song, J.
+  (2014).
+\newblock {\em {Handbook of missing data methodology}}.
+\newblock Chapman and Hall/CRC, Boca Raton, FL.
+
+\bibitem[Rubin, 1996]{rubin_multiple_1996}
+Rubin, D.~B. (1996).
+\newblock {Multiple {\{}Imputation{\}} after 18+ {\{}Years{\}}}.
+\newblock {\em Journal of the American Statistical Association},
+  91(434):473--489.
+
+\bibitem[Schafer and Graham, 2002]{Schafer2002}
+Schafer, J.~L. and Graham, J.~W. (2002).
+\newblock {Missing data: Our view of the state of the art}.
+\newblock {\em Psychological Methods}, 7(2):147--177.
+
+\end{thebibliography}

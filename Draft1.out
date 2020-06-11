@@ -1,0 +1,33 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [1][-]{section.2}{Terminology and basic missingness theory}{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{What is missingness?}{section.2}% 3
+\BOOKMARK [2][-]{subsection.2.2}{The missingness mechanism}{section.2}% 4
+\BOOKMARK [3][-]{subsubsection.2.2.1}{Missing Completely At Random}{subsection.2.2}% 5
+\BOOKMARK [3][-]{subsubsection.2.2.2}{Missing At Random}{subsection.2.2}% 6
+\BOOKMARK [3][-]{subsubsection.2.2.3}{Missing Not At Random}{subsection.2.2}% 7
+\BOOKMARK [2][-]{subsection.2.3}{Illustrative example}{section.2}% 8
+\BOOKMARK [2][-]{subsection.2.4}{The validity of missingness mechanisms}{section.2}% 9
+\BOOKMARK [1][-]{section.3}{Imputation}{}% 10
+\BOOKMARK [2][-]{subsection.3.1}{What is imputation?}{section.3}% 11
+\BOOKMARK [2][-]{subsection.3.2}{What is valid inference?}{section.3}% 12
+\BOOKMARK [2][-]{subsection.3.3}{Congeniality: when the imputation and analysis models differ}{section.3}% 13
+\BOOKMARK [1][-]{section.4}{Techniques of interest}{}% 14
+\BOOKMARK [2][-]{subsection.4.1}{Ad hoc methods}{section.4}% 15
+\BOOKMARK [3][-]{subsubsection.4.1.1}{Case deletion, also called Complete Case Analysis}{subsection.4.1}% 16
+\BOOKMARK [3][-]{subsubsection.4.1.2}{Mean imputation}{subsection.4.1}% 17
+\BOOKMARK [3][-]{subsubsection.4.1.3}{Last Observation Carried Forward}{subsection.4.1}% 18
+\BOOKMARK [3][-]{subsubsection.4.1.4}{Regression}{subsection.4.1}% 19
+\BOOKMARK [1][-]{section.5}{Statistically principled imputation}{}% 20
+\BOOKMARK [2][-]{subsection.5.1}{Single imputation using conditional distributions}{section.5}% 21
+\BOOKMARK [2][-]{subsection.5.2}{Multiple imputation}{section.5}% 22
+\BOOKMARK [3][-]{subsubsection.5.2.1}{Specifying the imputation model}{subsection.5.2}% 23
+\BOOKMARK [3][-]{subsubsection.5.2.2}{Rubin's rules}{subsection.5.2}% 24
+\BOOKMARK [3][-]{subsubsection.5.2.3}{Potential pitfalls and criticism}{subsection.5.2}% 25
+\BOOKMARK [1][-]{section.6}{Experiments}{}% 26
+\BOOKMARK [2][-]{subsection.6.1}{MICE}{section.6}% 27
+\BOOKMARK [2][-]{subsection.6.2}{Synthetic example}{section.6}% 28
+\BOOKMARK [3][-]{subsubsection.6.2.1}{MCAR}{subsection.6.2}% 29
+\BOOKMARK [3][-]{subsubsection.6.2.2}{MAR}{subsection.6.2}% 30
+\BOOKMARK [3][-]{subsubsection.6.2.3}{MNAR}{subsection.6.2}% 31
+\BOOKMARK [2][-]{subsection.6.3}{Should we use multiple imputation?}{section.6}% 32
+\BOOKMARK [1][-]{section.7}{Conclusion and further work}{}% 33

@@ -4,69 +4,1205 @@ author: "Marius Dioli"
 date: "February 22, 2020"
 output: pdf_document
 ---
-```{r}
+TODOS:
+Make simulation with cross correlated variables
+Incorporate FMI
+Add classification and predictionY
 
-```
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE)
 ```
 
 ```{r}
 library(mice)
 library(mvtnorm)
 library(MASS)
+library(tidyverse) 
+library(ggplot2)
+```
+```{r}
+'?'(mvtnorm)
+mu = c(1,1)
+sigma = matrix(c(c(1, 0.6), c(0.6, 1)), nrow = 2, ncol = 2)
+data = rmvnorm(n, mu, sigma)
+data = data.frame("y_1" = data[,1], "x_1" = data[,2])
+reference = lm(y_1 ~x_1, data = data)
+summary(reference)
+
+data_1_sixty = data
+sixty_percent = 1/(1+exp(-(data$x_1-1.5)))
+mean(sixty_percent)
+for (i in 1:length(sixty_percent)){
+  val = rbinom(1, 1, sixty_percent[i])
+  #print(val)
+  if(val == 0 ){
+    data_1_sixty$y_1[i] = NA
+  }
+}
+hist(data_1_sixty$y_1)
+hist(data$y_1)
+colMeans(data)
+colMeans(na.omit(data_1_sixty))
+mean(data_1_sixty$x_1)
+data_1_sixty
 ```
 
 ```{r}
 #Setting number of entries
-n = 1000
+n = 500
+iters = 20
+
+```
+
+
+
+
+```{r}
+n = 500
+x_1 = rnorm(n, 1, 1)
+b_1 = 8
+xb = x_1*b_1+b_0
+sigma_i = 10
+y_1 = rnorm(n, xb, sigma_i)
+df_1_full = data.frame(y_1, x_1)
+reference = lm(y_1 ~x_1, data = df_1_full)
+summary(reference)
+
+
+```
+
+```{r}
+#Removing vals
+five_percent = 1/(1+exp(-(df_1_full$x_1 +2.5)))
+mean(five_percent)
+ten_percent = 1/(1+exp(-(df_1_full$x_1 + 1.6)))
+mean(ten_percent)
+twenty_percent = 1/(1+exp(-(df_1_full$x_1+0.7)))
+mean(twenty_percent)
+forty_percent = 1/(1+exp(-(df_1_full$x_1-0.5)))
+mean(forty_percent)
+sixty_percent = 1/(1+exp(-(df_1_full$x_1-1.5)))
+mean(sixty_percent)
+eighty_percent = 1/(1+exp(-(df_1_full$x_1-2.65)))
+mean(eighty_percent)
+ninety_percent = 1/(1+exp(-(df_1_full$x_1 -3.5)))
+mean(ninety_percent)
+vals = 0
+for(i in ninety_percent){
+  if(i<0.1){
+    vals = vals+1
+  }
+}
+
+df_1_five = df_1_full
+for (i in 1:length(five_percent)){
+  val = rbinom(1, 1, five_percent[i])
+  #print(val)
+  if(val == 0 ){
+    df_1_five$y_1[i] = NA
+  }
+}
+
+df_1_ten = df_1_full
+for (i in 1:length(ten_percent)){
+  val = rbinom(1, 1, ten_percent[i])
+  #print(val)
+  if(val == 0 ){
+    df_1_ten$y_1[i] = NA
+  }
+}
+
+df_1_twenty = df_1_full
+for (i in 1:length(twenty_percent)){
+  val = rbinom(1, 1, twenty_percent[i])
+  #print(val)
+  if(val == 0 ){
+    df_1_twenty$y_1[i] = NA
+  }
+}
+
+df_1_forty = df_1_full
+for (i in 1:length(forty_percent)){
+  val = rbinom(1, 1, forty_percent[i])
+  #print(val)
+  if(val == 0 ){
+    df_1_forty$y_1[i] = NA
+  }
+}
+
+df_1_sixty = df_1_full 
+for (i in 1:length(sixty_percent)){
+  val = rbinom(1, 1, sixty_percent[i])
+  #print(val)
+  if(val == 0 ){
+    df_1_sixty$y_1[i] = NA
+  }
+}
+
+df_1_eighty = df_1_full
+for (i in 1:length(eighty_percent)){
+  val = rbinom(1, 1, eighty_percent[i])
+  #print(val)
+  if(val == 0 ){
+    df_1_eighty$y_1[i] = NA
+  }
+}
+
+
+df_1_ninety = df_1_full
+val = rbinom(500,1, ninety_percent)
+for (i in 1:length(val)){
+  if(val[i] == 0 ){
+    df_1_ninety$y_1[i] = NA
+  }
+}
+hist(df_1_ninety$y_1)
+
+df_1_ninety = df_1_full
+for (i in 1:length(eighty_percent)){
+  set.seed(i)
+  val = rbinom(1, 1, ninety_percent[i])
+  #print(val)
+  if(val == 0 ){
+    df_1_ninety$y_1[i] = NA
+  }
+}
+hist(df_1_ninety$y_1)
+```
+```{r}
+df_1_five = df_1_full
+val = rbinom(500,1, five_percent)
+for (i in 1:length(val)){
+  if(val[i] == 0 ){
+    df_1_five$y_1[i] = NA
+  }
+}
+  
+df_1_ten = df_1_full
+val = rbinom(500,1, ten_percent)
+for (i in 1:length(val)){
+  if(val[i] == 0 ){
+    df_1_ten$y_1[i] = NA
+  }
+}
+  
+df_1_twenty = df_1_full
+val = rbinom(500,1, twenty_percent)
+for (i in 1:length(val)){
+  if(val[i] == 0 ){
+    df_1_twenty$y_1[i] = NA
+  }
+}
+  
+ df_1_forty = df_1_full
+val = rbinom(500,1, forty_percent)
+for (i in 1:length(val)){
+  if(val[i] == 0 ){
+    df_1_forty$y_1[i] = NA
+  }
+}
+  
+  df_1_sixty = df_1_full
+val = rbinom(500,1, sixty_percent)
+for (i in 1:length(val)){
+  if(val[i] == 0 ){
+    df_1_sixty$y_1[i] = NA
+  }
+}
+  
+  df_1_eighty = df_1_full
+val = rbinom(500,1, eighty_percent)
+for (i in 1:length(val)){
+  if(val[i] == 0 ){
+    df_1_eighty$y_1[i] = NA
+  }
+}
+  
+  df_1_ninety = df_1_full
+val = rbinom(500,1, ninety_percent)
+for (i in 1:length(val)){
+  if(val[i] == 0 ){
+    df_1_ninety$y_1[i] = NA
+  }
+}
+'?'(dnorm)
+pnorm(df_1_full$x_1, mean = 1, sd = 1)
+
+```
+
+```{r}
+set.seed(1)
+
+
+
+  val =pnorm(df_1_full$x_1, mean = 1, sd = 1)
+df_1_five = df_1_full
+
+for (i in 1:length(val)){
+  if(val[i] < 0.5 ){
+    df_1_five$y_1[i] = NA
+  }
+}
+  
+df_1_ten = df_1_full
+
+for (i in 1:length(val)){
+  if(val[i] < 0.1 ){
+    df_1_ten$y_1[i] = NA
+  }
+}
+  
+df_1_twenty = df_1_full
+
+for (i in 1:length(val)){
+  if(val[i] < 0.2 ){
+    df_1_twenty$y_1[i] = NA
+  }
+}
+  
+ df_1_forty = df_1_full
+
+for (i in 1:length(val)){
+  if(val[i] < 0.4 ){
+    df_1_forty$y_1[i] = NA
+  }
+}
+  
+  df_1_sixty = df_1_full
+
+for (i in 1:length(val)){
+  if(val[i] < 0.6 ){
+    
+    df_1_sixty$y_1[i] = NA
+  }
+}
+   vals = 0
+  df_1_eighty = df_1_full
+for (i in 1:length(val)){
+  if(val[i] < 0.8 ){
+    vals= vals+1
+    df_1_eighty$y_1[i] = NA
+  }
+}
+ 
+  df_1_ninety = df_1_full
+for (i in 1:length(val)){
+  if(val[i] < 0.9 ){
+    df_1_ninety$y_1[i] = NA
+  }
+}
+vals
+hist(df_1_full$y_1)
+hist(df_1_sixty$y_1)
+hist(df_1_five$y_1)
+hist(df_1_ten$y_1)
+hist(df_1_twenty$y_1)
+hist(df_1_forty$y_1)
+
+hist(df_1_eighty$y_1)
+hist(df_1_ninety$y_1)
+
+```
+
+
+```{r echo=FALSE}
+#Generating data according to Turid's recommended method
+#One cont normal variables
+n = 500
+iters = 15
+imputations = 100
+x_1 = rnorm(n, 1, 1)
+b_1 = 1
+b_0 = 0
+xb = x_1*b_1 +b_0
+sigma_i = 10
+y_1 = rnorm(n, xb, sigma_i)
+df_1_full = data.frame(y_1, x_1)
+#Removing vals
+five_percent = 1/(1+exp(-(df_1_full$x_1 +2.5)))
+mean(five_percent)
+ten_percent = 1/(1+exp(-(df_1_full$x_1 + 1.6)))
+mean(ten_percent)
+twenty_percent = 1/(1+exp(-(df_1_full$x_1+0.7)))
+mean(twenty_percent)
+forty_percent = 1/(1+exp(-(df_1_full$x_1-0.5)))
+mean(forty_percent)
+sixty_percent = 1/(1+exp(-(df_1_full$x_1-1.5)))
+mean(sixty_percent)
+eighty_percent = 1/(1+exp(-(df_1_full$x_1-2.65)))
+mean(eighty_percent)
+ninety_percent = 1/(1+exp(-(df_1_full$x_1 -3.5)))
+mean(ninety_percent)
+
+
+removers = c(five_percent, ten_percent, twenty_percent, 
+             forty_percent, sixty_percent, eighty_percent, ninety_percent)
+
+df_1_five = df_1_full
+for (i in 1:length(five_percent)){
+  val = rbinom(1, 1, five_percent[i])
+  #print(val)
+  if(val == 0 ){
+    df_1_five$y_1[i] = NA
+  }
+}
+
+df_1_ten = df_1_full
+for (i in 1:length(ten_percent)){
+  val = rbinom(1, 1, ten_percent[i])
+  #print(val)
+  if(val == 0 ){
+    df_1_ten$y_1[i] = NA
+  }
+}
+
+df_1_twenty = df_1_full
+for (i in 1:length(twenty_percent)){
+  val = rbinom(1, 1, twenty_percent[i])
+  #print(val)
+  if(val == 0 ){
+    df_1_twenty$y_1[i] = NA
+  }
+}
+
+df_1_forty = df_1_full
+for (i in 1:length(forty_percent)){
+  val = rbinom(1, 1, forty_percent[i])
+  #print(val)
+  if(val == 0 ){
+    df_1_forty$y_1[i] = NA
+  }
+}
+
+df_1_sixty = df_1_full 
+for (i in 1:length(sixty_percent)){
+  val = rbinom(1, 1, sixty_percent[i])
+  #print(val)
+  if(val == 0 ){
+    df_1_sixty$y_1[i] = NA
+  }
+}
+
+df_1_eighty = df_1_full
+for (i in 1:length(eighty_percent)){
+  val = rbinom(1, 1, eighty_percent[i])
+  #print(val)
+  if(val == 0 ){
+    df_1_eighty$y_1[i] = NA
+  }
+}
+
+df_1_ninety = df_1_full
+for (i in 1:length(ninety_percent)){
+  val = rbinom(1, 1, ninety_percent[i])
+  #print(val)
+  if(val == 0 ){
+    df_1_ninety$y_1[i] = NA
+  }
+}
+
+#CCA
+cca_1_5 = lm(y_1 ~x_1, data = df_1_five)
+cca_1_10 = lm(y_1 ~ x_1, data = df_1_ten )
+cca_1_20 = lm(y_1 ~ x_1, data = df_1_twenty)
+cca_1_40 = lm(y_1 ~ x_1, data = df_1_forty)
+cca_1_60 = lm(y_1 ~ x_1, data = df_1_sixty)
+cca_1_80 = lm(y_1 ~ x_1, data = df_1_eighty)
+cca_1_90 = lm(y_1 ~ x_1, data = df_1_ninety)
+
+'?'(mice)
+imp_1_5 = mice(df_1_five, m = imputations, maxit = iters, printFlag = FALSE)
+imp_1_10 = mice(df_1_ten, m = imputations,maxit = iters, printFlag = FALSE)
+imp_1_20 = mice(df_1_twenty,m = imputations, maxit = iters, printFlag = FALSE)
+imp_1_40 = mice(df_1_forty, m = imputations,maxit = iters, printFlag = FALSE)
+imp_1_60 = mice(df_1_sixty, m = imputations,maxit = iters, printFlag = FALSE)
+imp_1_80 = mice(df_1_eighty,m = imputations, maxit = iters, printFlag = FALSE)
+imp_1_90 = mice(df_1_ninety, m = imputations,maxit = iters, printFlag = FALSE)
+
+fit_1_5 = with(imp_1_5, lm(y_1 ~x_1))
+fit_1_10 = with(imp_1_10, lm(y_1 ~x_1))
+fit_1_20 = with(imp_1_20, lm(y_1 ~x_1))
+fit_1_40 = with(imp_1_40, lm(y_1 ~x_1))
+fit_1_60 = with(imp_1_60, lm(y_1 ~x_1))
+fit_1_80 = with(imp_1_80, lm(y_1 ~x_1))
+fit_1_90 = with(imp_1_90, lm(y_1 ~x_1))
+
+
+pooled_1_5 = pool(fit_1_5)
+pooled_1_10 = pool(fit_1_10)
+pooled_1_20 = pool(fit_1_20)
+pooled_1_40 = pool(fit_1_40)
+pooled_1_60 = pool(fit_1_60)
+pooled_1_80 = pool(fit_1_80)
+pooled_1_90 = pool(fit_1_90)
+
+
+r_sq_1_5 = pool.r.squared(fit_1_5)
+r_sq_1_10 = pool.r.squared(fit_1_10)
+r_sq_1_20 = pool.r.squared(fit_1_20)
+r_sq_1_40 = pool.r.squared(fit_1_40)
+r_sq_1_60 = pool.r.squared(fit_1_60)
+r_sq_1_80 = pool.r.squared(fit_1_80)
+r_sq_1_90 = pool.r.squared(fit_1_90)
+
+w = summary(pooled_1_5, conf.int=TRUE)
+w
+beta_ci(summary(pooled_1_5,  conf.int=TRUE))
+```
+
+```{r}
+#Old
+#Function for calculating confidence intervals for betas
+#beta_ci = function(model_summ, lower, upper){
+#  print(model_summ)
+#  std = model_summ$std.error
+#  estim = model_summ$estimate
+#  ci_ = c()
+#  for(i in 1:length(estim)){
+#    print(c(estim[i] - 1.96*std[i], estim[i] + 1.96*std[i]))
+#    ci_ = rbind(ci_, c(estim[i] - 1.96*std[i], estim[i] + 1.96*std[i]))
+#  }
+#  #print("We are at the ifs")
+#  if(lower){
+#    return(ci_[1,])
+#  }
+#  if(upper){
+#    return(ci_[2,])
+#  }
+#  return(ci_)
+#}
+
+#New
+beta_ci = function(model_summ){
+  #print("We are in the function")
+  w = model_summ
+  ci_ = list("lower" = w$`2.5 %`[2], "upper" = w$`97.5 %`[2])
+  return(ci_)
+}
+```
+
+```{r}
+r_sq_cca = c(summary(cca_1_5)$r.squared, summary(cca_1_10)$r.squared , summary(cca_1_20)$r.squared, summary(cca_1_40)$r.squared, summary(cca_1_60)$r.squared, summary(cca_1_80)$r.squared, summary(cca_1_90)$r.squared)
+r_sq_total = c(r_sq_1_5[1], r_sq_1_10[1], r_sq_1_20[1], r_sq_1_40[1], r_sq_1_60[1], r_sq_1_80[1], r_sq_1_90[1])
+
+beta_1_mi =c(summary(pooled_1_5)$estimate[2], summary(pooled_1_10)$estimate[2], summary(pooled_1_20)$estimate[2], summary(pooled_1_40)$estimate[2], summary(pooled_1_60)$estimate[2], summary(pooled_1_80)$estimate[2], summary(pooled_1_90)$estimate[2])
+
+
+beta_1_mi_ci = rbind(beta_ci(summary(pooled_1_5,  conf.int=TRUE)), beta_ci(summary(pooled_1_10,  conf.int=TRUE)), beta_ci(summary(pooled_1_20,  conf.int=TRUE)), beta_ci(summary(pooled_1_40,  conf.int=TRUE)), beta_ci(summary(pooled_1_60,  conf.int=TRUE)), beta_ci(summary(pooled_1_80,  conf.int=TRUE)), beta_ci(summary(pooled_1_90,  conf.int=TRUE)))
+beta_1_mi_ci = data.frame("lower" = unlist(beta_1_mi_ci)[1:7], "upper" =unlist(beta_1_mi_ci)[8:14])
+
+beta_1_1_cca_ci = rbind(confint(cca_1_5)[2,], confint(cca_1_10)[2,], confint(cca_1_20)[2,], confint(cca_1_40)[2,], confint(cca_1_60)[2,], confint(cca_1_80)[2,], confint(cca_1_90)[2,])
+
+beta_both_1_cca = rbind(cca_1_5$coefficients, cca_1_10$coefficients, cca_1_20$coefficients, cca_1_40$coefficients, cca_1_60$coefficients, cca_1_80$coefficients, cca_1_90$coefficients)
+summary(cca_1_90)
+miss = c(5,10, 20, 40,60,80,90)
+
+df_1_beta = data.frame("Percent_missing" = miss, "beta_1_mi" = beta_1_1_mi, "beta_1_mi_lower" = beta_1_mi_ci$lower, "beta_1_mi_upper" = beta_1_mi_ci$upper,  "beta_0_cca" = beta_both_1_cca[,1], "beta_1_cca" = beta_both_1_cca[,2], "beta_1_cca_lower" =beta_1_1_cca_ci[,1], "beta_1_cca_upper" =beta_1_1_cca_ci[,2])
+#citation("mice")
+
+```
+
+```{r}
+#Plotting
+
+
+p<- ggplot(df_1_beta, aes(x=Percent_missing, y=beta_1_cca)) + 
+  geom_line() +
+  geom_point()+
+  geom_errorbar(aes(ymin=beta_1_cca_lower, ymax=beta_1_cca_upper), width=.2,
+                 position=position_dodge(0.05))
+t<- ggplot(df_1_beta, aes(x=Percent_missing, y=beta_1_mi)) + 
+  geom_line() +
+  geom_point()+
+  geom_errorbar(aes(ymin=beta_1_mi_lower, ymax=beta_1_mi_upper), width=.2,
+                 position=position_dodge(0.05))
+print(p)
+print(t)
+df_1_beta
+```
+
+```{r}
+results_5 =  data.frame("beta_0_mi" = double() , "beta_0_mi_lower" = double(), "beta_0_mi_upper" = double(), "beta_1_mi" = double(), "beta_1_mi_lower" = double(), "beta_1_mi_upper" = double(),  "beta_0_cca" = double(),  "beta_0_cca_lower"= double(), "beta_0_cca_upper" =double(), "beta_1_cca" = double(), "beta_1_cca_lower" =double(), "beta_1_cca_upper" =double())
+str(results_5)
+results_5 = rbind(c(1.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0), results_5)
+results_5
+x = c(0,0)
+x = rbind(c(1,1), x)
+x = rbind(c(2,2), x)
+x = data.frame(x)
+
+```
+
+```{r}
+write.table(results_5, file='/home/marius/Downloads/Test/results_5.csv', row.names=FALSE)
+t = df_1_beta
+t$Percent_missing = NULL
+write.table(t[1,], file = "/home/marius/Downloads/Test/results_5.csv", append = TRUE, quote = FALSE,
+    col.names = FALSE, row.names = FALSE)
+summary(cca_model)$coefficients[3,4]
+summary(pooled_1_20)[2,6]
+x_1 = rnorm(n, 10, 1)
+b_1 = 1
+b_0 = 0
+xb = x_1*b_1 + b_0
+sigma_i = 10
+y_1 = rnorm(n, xb, sigma_i)
+mean(xb)
+```
+
+```{r}
+  x_1 = rnorm(n, 10, 1)
+  b_1 = 1
+  b_0 = 0
+  xb = x_1*b_1 + b_0
+  sigma_i = 10
+  y_1 = rnorm(n, xb, sigma_i)
+  df_1_full = data.frame(y_1, x_1)
+  
+  #Removing vals
+  five_percent = 1/(1+exp(-(df_1_full$x_1-6.5)))
+  mean(five_percent)
+  ten_percent = 1/(1+exp(-(df_1_full$x_1-7.45)))
+  mean(ten_percent)
+  twenty_percent = 1/(1+exp(-(df_1_full$x_1-8.35)))
+  mean(twenty_percent)
+  forty_percent = 1/(1+exp(-(df_1_full$x_1-9.51)))
+  mean(forty_percent)
+  sixty_percent = 1/(1+exp(-(df_1_full$x_1-10.49)))
+  mean(sixty_percent)
+  eighty_percent = 1/(1+exp(-(df_1_full$x_1-11.65)))
+  mean(eighty_percent)
+  ninety_percent = 1/(1+exp(-(df_1_full$x_1-12.52)))
+  mean(ninety_percent)
+```
+```{r}
+set.seed(1)
+  x_1 = rnorm(n, 10, 1)
+  b_1 = 1
+  b_0 = 0
+  xb = x_1*b_1 + b_0
+  sigma_i = 10
+  y_1 = rnorm(n, xb, sigma_i)
+  df_1_full = data.frame(y_1, x_1)
+  
+  #Removing vals
+  five_percent = 1/(1+exp(-(df_1_full$x_1-6.5)))
+  mean(five_percent)
+  ten_percent = 1/(1+exp(-(df_1_full$x_1-7.45)))
+  mean(ten_percent)
+  twenty_percent = 1/(1+exp(-(df_1_full$x_1-8.35)))
+  mean(twenty_percent)
+  forty_percent = 1/(1+exp(-(df_1_full$x_1-9.51)))
+  mean(forty_percent)
+  sixty_percent = 1/(1+exp(-(df_1_full$x_1-10.49)))
+  mean(sixty_percent)
+  eighty_percent = 1/(1+exp(-(df_1_full$x_1-11.65)))
+  mean(eighty_percent)
+  ninety_percent = 1/(1+exp(-(df_1_full$x_1-12.52)))
+  mean(ninety_percent)
+  df_1_five = df_1_full
+  for (i in 1:length(five_percent)){
+    val = rbinom(1, 1, five_percent[i])
+    #print(val)
+    if(val == 0 ){
+      df_1_five$y_1[i] = NA
+    }
+  }
+  
+  df_1_ten = df_1_full
+  for (i in 1:length(ten_percent)){
+    val = rbinom(1, 1, ten_percent[i])
+    #print(val)
+    if(val == 0 ){
+      df_1_ten$y_1[i] = NA
+    }
+  }
+  
+  df_1_twenty = df_1_full
+  for (i in 1:length(twenty_percent)){
+    val = rbinom(1, 1, twenty_percent[i])
+    #print(val)
+    if(val == 0 ){
+      df_1_twenty$y_1[i] = NA
+    }
+  }
+  
+  df_1_forty = df_1_full
+  for (i in 1:length(forty_percent)){
+    val = rbinom(1, 1, forty_percent[i])
+    #print(val)
+    if(val == 0 ){
+      df_1_forty$y_1[i] = NA
+    }
+  }
+  
+  df_1_sixty = df_1_full 
+  for (i in 1:length(sixty_percent)){
+    val = rbinom(1, 1, sixty_percent[i])
+    #print(val)
+    if(val == 0 ){
+      df_1_sixty$y_1[i] = NA
+    }
+  }
+  
+  df_1_eighty = df_1_full
+  for (i in 1:length(eighty_percent)){
+    val = rbinom(1, 1, eighty_percent[i])
+    #print(val)
+    if(val == 0 ){
+      df_1_eighty$y_1[i] = NA
+    }
+  }
+  
+  df_1_ninety = df_1_full
+  for (i in 1:length(ninety_percent)){
+    val = rbinom(1, 1, ninety_percent[i])
+    #print(val)
+    if(val == 0 ){
+      df_1_ninety$y_1[i] = NA
+    }
+  }
+  colMeans(df_1_full)
+  colMeans(na.omit(df_1_five))
+  colMeans(na.omit(df_1_ten))
+  colMeans(na.omit(df_1_twenty))
+  colMeans(na.omit(df_1_forty))
+  colMeans(na.omit(df_1_sixty))
+  colMeans(na.omit(df_1_eighty))
+  colMeans(na.omit(df_1_ninety))
+```
+
+```{r}
+#Big run
+n = 700
+iters = 10
+imputations = 20
+#Empty files for appending results
+results_template =  data.frame("beta_0_mi" = double() , "beta_1_mi" = double(), "beta_1_mi_lower" = double(), "beta_1_mi_upper" = double(),  "beta_0_cca" = double(),  "beta_1_cca" = double(), "beta_1_cca_lower" =double(), "beta_1_cca_upper" =double(), "p-value_mi" = double(), "p-value_cca" = double())
+
+
+write.table(results_template, file='/home/marius/Downloads/Test/test_v2_5.csv', sep = ",", row.names=FALSE)
+write.table(results_template, file='/home/marius/Downloads/Test/test_v2_10.csv', sep = ",", row.names=FALSE)
+write.table(results_template, file='/home/marius/Downloads/Test/test_v2_20.csv', sep = ",", row.names=FALSE)
+write.table(results_template, file='/home/marius/Downloads/Test/test_v2_40.csv', sep = ",", row.names=FALSE)
+write.table(results_template, file='/home/marius/Downloads/Test/test_v2_60.csv', sep = ",", row.names=FALSE)
+write.table(results_template, file='/home/marius/Downloads/Test/test_v2_80.csv', sep = ",", row.names=FALSE)
+write.table(results_template, file='/home/marius/Downloads/Test/test_v2_90.csv', sep = ",", row.names=FALSE)
+
+for(i in 1:10){
+  print(i)
+  #Generating data according to Turid's recommended method
+  #One cont normal variables
+  set.seed(i)
+  x_1 = rnorm(n, 10, 1)
+  b_1 = 1
+  b_0 = 0
+  xb = x_1*b_1 + b_0
+  sigma_i = 10
+  y_1 = rnorm(n, xb, sigma_i)
+  df_1_full = data.frame(y_1, x_1)
+  
+  #Removing vals
+  five_percent = 1/(1+exp(-(df_1_full$x_1-6.5)))
+  mean(five_percent)
+  ten_percent = 1/(1+exp(-(df_1_full$x_1-7.45)))
+  mean(ten_percent)
+  twenty_percent = 1/(1+exp(-(df_1_full$x_1-8.35)))
+  mean(twenty_percent)
+  forty_percent = 1/(1+exp(-(df_1_full$x_1-9.51)))
+  mean(forty_percent)
+  sixty_percent = 1/(1+exp(-(df_1_full$x_1-10.49)))
+  mean(sixty_percent)
+  eighty_percent = 1/(1+exp(-(df_1_full$x_1-11.65)))
+  mean(eighty_percent)
+  ninety_percent = 1/(1+exp(-(df_1_full$x_1-12.52)))
+  mean(ninety_percent)
+  
+  removers = c(five_percent, ten_percent, twenty_percent, 
+               forty_percent, sixty_percent, eighty_percent, ninety_percent)
+  
+  df_1_five = df_1_full
+  for (i in 1:length(five_percent)){
+    val = rbinom(1, 1, five_percent[i])
+    #print(val)
+    if(val == 0 ){
+      df_1_five$y_1[i] = NA
+    }
+  }
+  
+  df_1_ten = df_1_full
+  for (i in 1:length(ten_percent)){
+    val = rbinom(1, 1, ten_percent[i])
+    #print(val)
+    if(val == 0 ){
+      df_1_ten$y_1[i] = NA
+    }
+  }
+  
+  df_1_twenty = df_1_full
+  for (i in 1:length(twenty_percent)){
+    val = rbinom(1, 1, twenty_percent[i])
+    #print(val)
+    if(val == 0 ){
+      df_1_twenty$y_1[i] = NA
+    }
+  }
+  
+  df_1_forty = df_1_full
+  for (i in 1:length(forty_percent)){
+    val = rbinom(1, 1, forty_percent[i])
+    #print(val)
+    if(val == 0 ){
+      df_1_forty$y_1[i] = NA
+    }
+  }
+  
+  df_1_sixty = df_1_full 
+  for (i in 1:length(sixty_percent)){
+    val = rbinom(1, 1, sixty_percent[i])
+    #print(val)
+    if(val == 0 ){
+      df_1_sixty$y_1[i] = NA
+    }
+  }
+  
+  df_1_eighty = df_1_full
+  for (i in 1:length(eighty_percent)){
+    val = rbinom(1, 1, eighty_percent[i])
+    #print(val)
+    if(val == 0 ){
+      df_1_eighty$y_1[i] = NA
+    }
+  }
+  
+  df_1_ninety = df_1_full
+  for (i in 1:length(ninety_percent)){
+    val = rbinom(1, 1, ninety_percent[i])
+    #print(val)
+    if(val == 0 ){
+      df_1_ninety$y_1[i] = NA
+    }
+  }
+  
+  #CCA
+  cca_1_5 = lm(y_1 ~x_1, data = df_1_five)
+  cca_1_10 = lm(y_1 ~ x_1, data = df_1_ten )
+  cca_1_20 = lm(y_1 ~ x_1, data = df_1_twenty)
+  cca_1_40 = lm(y_1 ~ x_1, data = df_1_forty)
+  cca_1_60 = lm(y_1 ~ x_1, data = df_1_sixty)
+  cca_1_80 = lm(y_1 ~ x_1, data = df_1_eighty)
+  cca_1_90 = lm(y_1 ~ x_1, data = df_1_ninety)
+  
+  
+  imp_1_5 = mice(df_1_five, m = imputations, maxit = iters, printFlag = FALSE)
+  imp_1_10 = mice(df_1_ten, m = imputations, maxit = iters, printFlag = FALSE)
+  imp_1_20 = mice(df_1_twenty, m = imputations, maxit = iters, printFlag = FALSE)
+  imp_1_40 = mice(df_1_forty, m = imputations, maxit = iters, printFlag = FALSE)
+  imp_1_60 = mice(df_1_sixty, m = imputations, maxit = iters, printFlag = FALSE)
+  imp_1_80 = mice(df_1_eighty, m = imputations, maxit = iters, printFlag = FALSE)
+  imp_1_90 = mice(df_1_ninety, m = imputations, maxit = iters, printFlag = FALSE)
+  
+  fit_1_5 = with(imp_1_5, lm(y_1 ~x_1))
+  fit_1_10 = with(imp_1_10, lm(y_1 ~x_1))
+  fit_1_20 = with(imp_1_20, lm(y_1 ~x_1))
+  fit_1_40 = with(imp_1_40, lm(y_1 ~x_1))
+  fit_1_60 = with(imp_1_60, lm(y_1 ~x_1))
+  fit_1_80 = with(imp_1_80, lm(y_1 ~x_1))
+  fit_1_90 = with(imp_1_90, lm(y_1 ~x_1))
+  
+  
+  pooled_1_5 = pool(fit_1_5)
+  pooled_1_10 = pool(fit_1_10)
+  pooled_1_20 = pool(fit_1_20)
+  pooled_1_40 = pool(fit_1_40)
+  pooled_1_60 = pool(fit_1_60)
+  pooled_1_80 = pool(fit_1_80)
+  pooled_1_90 = pool(fit_1_90)
+  
+  
+  r_sq_1_5 = pool.r.squared(fit_1_5)
+  r_sq_1_10 = pool.r.squared(fit_1_10)
+  r_sq_1_20 = pool.r.squared(fit_1_20)
+  r_sq_1_40 = pool.r.squared(fit_1_40)
+  r_sq_1_60 = pool.r.squared(fit_1_60)
+  r_sq_1_80 = pool.r.squared(fit_1_80)
+  r_sq_1_90 = pool.r.squared(fit_1_90)
+  
+  #Getting p-values
+  p_vals_mi = c(summary(pooled_1_5)[2,6], summary(pooled_1_10)[2,6],summary(pooled_1_20)[2,6],summary(pooled_1_40)[2,6],summary(pooled_1_60)[2,6],summary(pooled_1_80)[2,6],summary(pooled_1_90)[2,6])
+  p_vals_cca = c(summary(cca_1_5)$coefficients[2,4], summary(cca_1_10)$coefficients[2,4],summary(cca_1_20)$coefficients[2,4],summary(cca_1_40)$coefficients[2,4],summary(cca_1_60)$coefficients[2,4],summary(cca_1_80)$coefficients[2,4],summary(cca_1_90)$coefficients[2,4])
+  
+  
+  
+  r_sq_cca = c(summary(cca_1_5)$r.squared, summary(cca_1_10)$r.squared , summary(cca_1_20)$r.squared,        summary(cca_1_40)$r.squared, summary(cca_1_60)$r.squared, summary(cca_1_80)$r.squared, summary(cca_1_90)$r.squared)
+  r_sq_total = c(r_sq_1_5[1], r_sq_1_10[1], r_sq_1_20[1], r_sq_1_40[1], r_sq_1_60[1], r_sq_1_80[1], r_sq_1_90[1])
+  
+  beta_0_1_mi =c(summary(pooled_1_5)$estimate[1], summary(pooled_1_10)$estimate[1], summary(pooled_1_20)$estimate[1],   summary(pooled_1_40)$estimate[1], summary(pooled_1_60)$estimate[1], summary(pooled_1_80)$estimate[1],   summary(pooled_1_90)$estimate[1])
+  
+  beta_1_1_mi =c(summary(pooled_1_5)$estimate[2], summary(pooled_1_10)$estimate[2], summary(pooled_1_20)$estimate[2],   summary(pooled_1_40)$estimate[2], summary(pooled_1_60)$estimate[2], summary(pooled_1_80)$estimate[2],   summary(pooled_1_90)$estimate[2])
+  
+  beta_1_mi = cbind(beta_0_1_mi, beta_1_1_mi)
+  
+  beta_1_mi_ci = rbind(beta_ci(summary(pooled_1_5,  conf.int=TRUE)), beta_ci(summary(pooled_1_10,  conf.int=TRUE)), beta_ci(summary(pooled_1_20,  conf.int=TRUE)), beta_ci(summary(pooled_1_40,  conf.int=TRUE)), beta_ci(summary(pooled_1_60,  conf.int=TRUE)), beta_ci(summary(pooled_1_80,  conf.int=TRUE)), beta_ci(summary(pooled_1_90,  conf.int=TRUE)))
+beta_1_mi_ci = data.frame("lower" = unlist(beta_1_mi_ci)[1:7], "upper" =unlist(beta_1_mi_ci)[8:14])
+  
+  
+  beta_0_1_cca_ci = rbind(confint(cca_1_5)[1,], confint(cca_1_10)[1,], confint(cca_1_20)[1,], confint(cca_1_40)[1,],   confint(cca_1_60)[1,], confint(cca_1_80)[1,], confint(cca_1_90)[1,])
+  
+  beta_1_1_cca_ci = rbind(confint(cca_1_5)[2,], confint(cca_1_10)[2,], confint(cca_1_20)[2,], confint(cca_1_40)[2,],   confint(cca_1_60)[2,], confint(cca_1_80)[2,], confint(cca_1_90)[2,])
+  beta_both_1_cca = rbind(cca_1_5$coefficients, cca_1_10$coefficients, cca_1_20$coefficients, cca_1_40$coefficients,   cca_1_60$coefficients, cca_1_80$coefficients, cca_1_90$coefficients)
+  summary(cca_1_90)
+  
+  
+  df_1_beta = data.frame("beta_0_mi" = beta_0_1_mi , "beta_1_mi" = beta_1_1_mi, "beta_1_mi_lower" = beta_1_mi_ci$lower, "beta_1_mi_upper" = beta_1_mi_ci$upper,  "beta_0_cca" = beta_both_1_cca[,1], "beta_1_cca" = beta_both_1_cca[,2], "beta_1_cca_lower" =beta_1_1_cca_ci[,1],   "beta_1_cca_upper" =beta_1_1_cca_ci[,2], "p-value_mi" = p_vals_mi, "p-value_cca" = p_vals_cca)
+  #print(df_1_beta)
+  
+  
+  write.table(df_1_beta[1,], file = '/home/marius/Downloads/Test/test_v2_5.csv', sep = ",", append = TRUE, quote = FALSE,
+    col.names = FALSE, row.names = FALSE)
+  write.table(df_1_beta[2,], file = '/home/marius/Downloads/Test/test_v2_10.csv', sep = ",", append = TRUE, quote = FALSE,
+    col.names = FALSE, row.names = FALSE)
+  write.table(df_1_beta[3,], file = '/home/marius/Downloads/Test/test_v2_20.csv', sep = ",", append = TRUE, quote = FALSE,
+    col.names = FALSE, row.names = FALSE)
+  write.table(df_1_beta[4,], file = '/home/marius/Downloads/Test/test_v2_40.csv', sep = ",", append = TRUE, quote = FALSE,
+    col.names = FALSE, row.names = FALSE)
+  write.table(df_1_beta[5,], file = '/home/marius/Downloads/Test/test_v2_60.csv', sep = ",", append = TRUE, quote = FALSE,
+    col.names = FALSE, row.names = FALSE)
+  write.table(df_1_beta[6,], file = '/home/marius/Downloads/Test/test_v2_80.csv', sep = ",", append = TRUE, quote = FALSE,
+    col.names = FALSE, row.names = FALSE)
+  write.table(df_1_beta[7,], file = '/home/marius/Downloads/Test/test_v2_90.csv', sep = ",", append = TRUE, quote = FALSE,
+    col.names = FALSE, row.names = FALSE)
+  
+}
 ```
 
 
 ```{r}
-#Setting vals for multivariate continous vars
-mu = replicate(14,0)
-tez = matrix(c(1, replicate(10,0)), c(2, replicate(9, 0), 3), nrow=2, ncol=11)
-tez
-#Variables only correlated with Y
-sigmaNoCrossCorr = matrix(c(c(1,  0.4, 0.6, 0.8, 0.1, 0.1, 0.1, 0.2, 0.2, 0.2, 0.4, 0.4, 0.8, 0.8),
-          c(0.4, 1, replicate(12, 0)),
-          c(0.6, 0,  1, replicate(11,0)),
-          c(0.8, 0, 0, 1, replicate(10,0)),
-          c(0.1, replicate(3,0), 1, replicate(9,0)),
-          c(0.1, replicate(4,0), 1, replicate(8,0)),
-          c(0.1, replicate(5,0), 1, replicate(7,0)),
-          c(0.2, replicate(6,0), 1, replicate(6,0)),
-          c(0.2, replicate(7,0), 1, replicate(5,0)),
-          c(0.2, replicate(8,0), 1, replicate(4,0)),
-          c(0.4, replicate(9,0), 1, replicate(3,0)),
-          c(0.4, replicate(10,0), 1, replicate(2,0)),
-          c(0.8, replicate(11,0), 1, 0),
-          c(0.8, replicate(12,0), 1)), nrow=14, ncol=14)
-sigmaNoCrossCorr
-
-#variables correlated with eachother, still under construction
-sigmaCrossCorr = c(c(1,  0.4, 0.6, 0.8, 0.1, 0.1, 0.1, 0.2, 0.2, 0.2, 0.4, 0.4, 0.8, 0.8),
-          c(0.4, 1, replicate(12, 0)),
-          c(0.6, 0,  1, replicate(11,0)),
-          c(0.8, 0, 0, 1, replicate(10,0)),
-          c(0.1, replicate(3,0), 1, replicate(9,0)),
-          c(0.1, replicate(4,0), 1, replicate(8,0)),
-          c(0.1, replicate(5,0), 1, replicate(7,0)),
-          c(0.2, replicate(6,0), 1, replicate(6,0)),
-          c(0.2, replicate(7,0), 1, replicate(5,0)),
-          c(0.2, replicate(8,0), 1, replicate(4,0)),
-          c(0.4, replicate(90,0), 1, replicate(3,0)),
-          c(0.4, replicate(10,0), 1, replicate(2,0)),
-          c(0.8, replicate(11,0), 1, 0),
-          c(0.8, replicate(12,0), 1))
-mvnData = mvrnorm(n = n, mu, sigmaNoCrossCorr, tol = 1e-14)
+p_results_5 = read.csv('/home/marius/Downloads/Test/v2_results_5.csv')
+p_results_5
 ```
 
 ```{r}
-#Generating binary data
+#Loading experiment data
+results_5 = read.csv('/home/marius/Downloads/Test/test_v2_5.csv')
+results_10 = read.csv('/home/marius/Downloads/Test/test_v2_10.csv')
+results_20 = read.csv('/home/marius/Downloads/Test/test_v2_20.csv')
+results_40 = read.csv('/home/marius/Downloads/Test/test_v2_40.csv')
+results_60 = read.csv('/home/marius/Downloads/Test/test_v2_60.csv')
+results_80 = read.csv('/home/marius/Downloads/Test/test_v2_80.csv')
+results_90 = read.csv('/home/marius/Downloads/Test/test_v2_90.csv')
 
-binary_categorical_vector = round(runif(n, min = 0, max = 1))
+#Checking amount of times we contain the true value
+tru_val = function(df){
+  mi = c()
+  cca = c()
+  for(i in 1:length(df[,1])){
+    upper_mi = df[i,4]
+    lower_mi = df[i,3]
+    t = FALSE
+    if(1<upper_mi&&lower_mi<1){
+      t = TRUE
+    }
+    if(t){
+      mi = c(mi, as.numeric(t))
+    }
+    else{
+      mi = c(mi, as.numeric(t))
+    }
+  
+    upper_cca = df[i,8]
+    lower_cca = df[i,7]
+    t=FALSE
+    if(1<upper_cca&&lower_cca<1){
+      t = TRUE
+    }
+    if(t){
+      cca = c(cca, as.numeric(t))
+    }
+    else{
+      cca = c(cca, as.numeric(t))
+    }
+    
+  }
+  return(list("mi" = mi,"cca" = cca))
+}
+
+tru_val_5 = tru_val(results_5)
+tru_val_10 = tru_val(results_10)
+tru_val_20 = tru_val(results_20)
+tru_val_40 = tru_val(results_40)
+tru_val_60 = tru_val(results_60)
+tru_val_80 = tru_val(results_80)
+tru_val_90 = tru_val(results_90)
+
+#Getting means
+a=data.frame(colMeans(results_5))
+r_5 = data.frame(t(a$colMeans.results_5.))
+colnames(r_5) = rownames(a)
+
+b=data.frame(colMeans(results_10))
+r_10 = data.frame(t(b$colMeans.results_10.))
+colnames(r_10) = rownames(b)
+
+c=data.frame(colMeans(results_20))
+r_20 = data.frame(t(c$colMeans.results_20.))
+colnames(r_20) = rownames(c)
+
+d=data.frame(colMeans(results_40))
+r_40 = data.frame(t(d$colMeans.results_40.))
+colnames(r_40) = rownames(d)
+
+e=data.frame(colMeans(results_60))
+r_60 = data.frame(t(e$colMeans.results_60.))
+colnames(r_60) = rownames(e)
+
+f=data.frame(colMeans(results_80))
+r_80 = data.frame(t(f$colMeans.results_80.))
+colnames(r_80) = rownames(f)
+
+g=data.frame(colMeans(results_90))
+r_90 = data.frame(t(g$colMeans.results_90.))
+colnames(r_90) = rownames(g)
+
+df_111 = rbind(r_5,r_10,r_20,r_40,r_60,r_80,r_90)
+df_111
+p<- ggplot(df_111, aes(x=c(5,10,20,40,60,80,90), y=beta_1_mi)) + 
+  geom_line() +
+  geom_point()+
+  geom_errorbar(aes(ymin=beta_1_mi_lower, ymax=beta_1_mi_upper), width=.2,
+                 position=position_dodge(0.05))
+t<- ggplot(df_111, aes(x=c(5,10,20,40,60,80,90), y=beta_1_cca)) + 
+  geom_line() +
+  geom_point()+
+  geom_errorbar(aes(ymin=beta_1_cca_lower, ymax=beta_1_cca_upper), width=.2,
+                 position=position_dodge(0.05))
+
+#Calculating bias
+mi_bias = c()
+cca_bias = c()
+for(i in 1:length(df_111[,1])){
+  bias_mi = 1-df_111[i,2] 
+  bias_cca = 1-df_111[i, 6]
+  mi_bias = c(mi_bias, bias_mi)
+  cca_bias = c(cca_bias, bias_cca)
+}
+cca_bias
+mi_bias
+t
+p
+
+#Calculating power
+
+
+#Calculating average size of CI
+ci_size = function(df){
+  mi = c()
+  cca = c()
+  for(i in 1:length(df[,1])){
+    upper_mi = df[i,4]
+    lower_mi = df[i,3]
+    mi = c(mi, upper_mi-lower_mi)
+   
+    upper_cca = df[i,8]
+    lower_cca = df[i,7]
+    
+    cca = c(cca, upper_cca-lower_cca)
+    
+    
+  }
+  return(list("mi" = mi,"cca" = cca))
+}
+
+ci_size_5 = ci_size(results_5)
+ci_size_5 = data.frame(ci_size_5)
+ci_size_10 = ci_size(results_10)
+ci_size_10 = data.frame(ci_size_10)
+ci_size_20 = ci_size(results_20)
+ci_size_20 = data.frame(ci_size_20)
+ci_size_40 = ci_size(results_40)
+ci_size_40 = data.frame(ci_size_40)
+ci_size_60 = ci_size(results_60)
+ci_size_60 = data.frame(ci_size_60)
+ci_size_80 = ci_size(results_80)
+ci_size_80 = data.frame(ci_size_80)
+ci_size_90 = ci_size(results_90)
+ci_size_90 = data.frame(ci_size_90)
+colMeans(data.frame(tru_val_5))
+colMeans(ci_size_40)
 ```
+
+
+
+
+
+```{r}
+
+#One cont one binomial
+x_1 = rnorm(10, 1, n)
+x_2 = rbinom(n, 1, 0.5)
+
+b_1 = 1
+b_2 = 4
+
+xb = matrix(c(x_1*b_1, x_2*b_2), nrow = 2, ncol = 1)
+sigma_i = matrix(c(c(1,0), c(0,1)), nrow = 2, ncol = 2)
+
+y_2 = mvrnorm(n = n, xb, sigma_i, tol = 1e-14)
+
+
+
+```
+
+```{r}
+
+#One cont one binomial, 5 cont auxiliary
+x_1 = rnorm(10, 1, n)
+x_2 = rbinom(n, 1, 0.5)
+z_1 = rnorm(10,1,n)
+z_1 = rnorm(10,1,n)
+z_1 = rnorm(10,1,n)
+z_1 = rnorm(10,1,n)
+b_1 = 1
+b_2 = 0.8
+
+```
+
+```{r}
+
+
+#Simpler version with 3 variables correlated with Y
+sigma_test = matrix(c(c(1, 0.8, 0.4), c(0.8, 1, 0), c(0.4, 0, 1)), nrow = 3, ncol = 3)
+eigen(sigma_test)
+eigen(matrix(c(c(1, 0.8, 0.4, 0.6), c(0.8, 1, 0, 0), c(0.4, 0, 1, 0), c(0.6, 0, 0, 1)), nrow = 4, ncol = 4))
+mu_test = replicate(3, 0)
+simple_data = mvrnorm(n = n, mu_test, sigma_test, tol = 1e-14)
+df = data.frame(simple_data)
+
+#Playing around with simple model
+play_cov = matrix(c(c(10, sqrt(10)*0.8, sqrt(10)*0.4), c(sqrt(10)*0.8, 1, 0), c(sqrt(10)*0.4, 0, 1)), nrow = 3, ncol = 3)
+play_mu = c(180, 0, 0)
+play = mvrnorm(n = n, play_mu, play_cov, tol = 1e-14)
+df_p = data.frame(play)
+
+
+```
+
+
+```{r}
+#Removing data
+
+#Using the logit function to determine 
+test_logit = df$X2 + df$X3
+test_prob = 1/(1+exp(-(1.879+df$X2 + df$X3)))
+
+mean(test_prob)
+
+mar_list = c()
+for (item in test_prob){
+  mar_list = c(mar_list, c(rbinom(1, 100, item)))
+  
+}
+mar_list
+mean(mar_list)
+test_prob[1]
+range(length(test_prob))
+#Removing values from Y
+for (i in 1:length(test_prob)){
+  val = rbinom(1, 1, test_prob[i])
+  #print(val)
+  if(val == 0 ){
+    df$X1[i] = NA
+  }
+}
+
+#Play
+play_prob = 1/(1+exp(-(-1.5+ df_p$X2 + df_p$X3)))
+mean(play_prob)
+df_p_full = df_p
+for (i in 1:length(play_prob)){
+  val = rbinom(1, 1, play_prob[i])
+  #print(val)
+  if(val == 0 ){
+    df_p$X1[i] = NA
+  }
+}
+df_p
+#Test
+#mylogit = glm(df$X1~ df$X2 + df$X3, data = df, family = "binomial")
+```
+
+```{r}
+#Multiple imputation
+imputed = mice(df)
+imputed$imp$X1
+
+fitm = with(imputed, lm(X1 ~ X2 + X3))
+summary(fitm)
+summary(pool(fitm))
+
+#Play
+imp_p = mice(df_p)
+imp_p$imp$X1
+
+fit_p = with(imp_p, lm(X1 ~ X2 + X3))
+summary(fit_p)
+summary(pool(fit_p))
+summary(pool(fit_p))
+pool.r.squared(fit_p)
+
+
+predict(pool(fit_p), data.frame(0,0))
+```
+
+
+
+```{r}
+#Inference
+#Test significance of regressions
+#Compare vs CCA
+#Test mu, sigma
+
+#Linear regression
+full_model = lm(X1 ~ X2 + X3, data = df_p_full)
+summary(full_model)
+full_model$coefficients[1] = 2
+summary(full_model)
+
+df_p_cca = na.omit(df_p)
+cca_model = lm(X1 ~ X2 + X3, data = df_p_cca)
+summary(cca_model)
+
+#Logistic regression
+```
+
+```{r}
+#Test for significance of logistic regression
+```
+
+
+
+```{r}
+#Whole set of regressions with varying levels of missing data
+
+
+#In the same graph compare CCA, MI, and True values.
+# We compare CI, Bias, , 
+
+
+#Wole set of regressions with varying levels of correlation
+
+#In the same graph compare CCA, MI, and True values
+
+
+
+#Whole set of regressions with categorical data as well.
+
+```
+
+```{r}
+#Testing regression with multivariate normal
+```
+
+
 

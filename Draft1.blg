@@ -1,46 +1,50 @@
-This is BibTeX, Version 0.99d (TeX Live 2019)
+This is BibTeX, Version 0.99d (TeX Live 2017/Debian)
 Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: Draft1.aux
 The style file: apalike.bst
-Database file #1: bib2.bib
-You've used 2 entries,
+Database file #1: final_5_bib.bib
+Warning--empty year in Lee
+Warning--empty journal in Lee
+Warning--can't use both author and editor fields in Little2019
+You've used 12 entries,
             1935 wiz_defined-function locations,
-            482 strings with 4027 characters,
-and the built_in function-call counts, 698 in all, are:
-= -- 67
-> -- 25
-< -- 1
-+ -- 8
-- -- 8
-* -- 56
-:= -- 131
-add.period$ -- 6
-call.type$ -- 2
-change.case$ -- 14
-chr.to.int$ -- 2
-cite$ -- 2
-duplicate$ -- 27
-empty$ -- 49
-format.name$ -- 10
-if$ -- 130
+            563 strings with 6416 characters,
+and the built_in function-call counts, 5112 in all, are:
+= -- 488
+> -- 262
+< -- 9
++ -- 92
+- -- 92
+* -- 465
+:= -- 912
+add.period$ -- 36
+call.type$ -- 12
+change.case$ -- 105
+chr.to.int$ -- 12
+cite$ -- 15
+duplicate$ -- 166
+empty$ -- 322
+format.name$ -- 114
+if$ -- 963
 int.to.chr$ -- 1
 int.to.str$ -- 0
-missing$ -- 2
-newline$ -- 13
-num.names$ -- 6
-pop$ -- 11
+missing$ -- 14
+newline$ -- 63
+num.names$ -- 36
+pop$ -- 85
 preamble$ -- 1
-purify$ -- 14
+purify$ -- 106
 quote$ -- 0
-skip$ -- 22
+skip$ -- 127
 stack$ -- 0
-substring$ -- 43
-swap$ -- 2
+substring$ -- 335
+swap$ -- 12
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 12
-warning$ -- 0
-while$ -- 6
+type$ -- 68
+warning$ -- 3
+while$ -- 40
 width$ -- 0
-write$ -- 27
+write$ -- 156
+(There were 3 warnings)
